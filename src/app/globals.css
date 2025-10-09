@@ -24,3 +24,23 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Colorize a monochrome logo via mask so it uses currentColor */
+.logo-mask {
+  display: inline-block;
+  width: 250px;            /* match our Image component width */
+  height: 125px;           /* match our Image component height */
+  background-color: currentColor;
+
+  -webkit-mask-image: url('/logo.avif');
+  mask-image: url('/logo.avif');
+
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+
+  -webkit-mask-size: contain;
+  mask-size: contain;
+
+  -webkit-mask-position: center;
+  mask-position: center;
+}

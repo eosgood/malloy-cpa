@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import Image from 'next/image'
 
 export default function Home() {
   return (
@@ -11,13 +10,10 @@ export default function Home() {
             {/* Logo */}
             <div className="flex-shrink-0">
               <div className="bg-white/90 backdrop-blur-sm rounded-2xl px-8 py-6 shadow-lg">
-                <Image
-                  src="/logo.avif"
-                  alt="Malloy Accounting LLC Logo"
-                  width={250}
-                  height={125}
-                  className="mx-auto"
-                  priority
+                <div 
+                  className="logo-mask text-blue-600 mx-auto" 
+                  role="img" 
+                  aria-label="Malloy Accounting LLC Logo"
                 />
               </div>
             </div>
