@@ -1,3 +1,4 @@
+
 import PaymentForm from '@/components/PaymentForm';
 import { notFound } from 'next/navigation';
 
@@ -5,11 +6,17 @@ interface InvoicePaymentPageProps {
   params: {
     invoice: string;
   };
+  searchParams?: { [key: string]: string | string[] | undefined };
 }
 
-export default function InvoicePaymentPage({ params }: InvoicePaymentPageProps) {
+export default function InvoicePaymentPage({ params, searchParams }: InvoicePaymentPageProps) {
   const { invoice } = params;
-  
+  // Get amount from query string if present
+  let amount: string | undefined = undefined;
+  if (searchParams && typeof searchParams.amount === 'string') {
+    amount = searchParams.amount;
+  }
+
   // Basic validation for invoice parameter
   if (!invoice || invoice.length < 3) {
     notFound();
@@ -63,7 +70,7 @@ export default function InvoicePaymentPage({ params }: InvoicePaymentPageProps) 
             </div>
           </div>
 
-          <PaymentForm invoiceNumber={invoice} />
+          <PaymentForm invoiceNumber={invoice} amount={amount} />
         </div>
 
         <div className="mt-8 text-center">

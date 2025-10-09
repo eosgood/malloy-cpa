@@ -5,14 +5,16 @@ import type { CreateSessionResponse } from '@/types/elavon';
 
 
 
+
 interface PaymentFormProps {
   invoiceNumber?: string;
+  amount?: string;
 }
 
-export default function PaymentForm({ invoiceNumber }: PaymentFormProps) {
+export default function PaymentForm({ invoiceNumber, amount: initialAmount }: PaymentFormProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string>('');
-  const [amount, setAmount] = useState('');
+  const [amount, setAmount] = useState(initialAmount || '');
   const [manualInvoiceNumber, setManualInvoiceNumber] = useState('');
   
 
