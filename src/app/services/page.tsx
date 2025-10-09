@@ -87,7 +87,7 @@ export default function Services() {
                   </div>
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">What's Included:</h3>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">What&rsquo;s Included:</h3>
                   <ul className="space-y-2">
                     {service.features.map((feature, featureIndex) => (
                       <li key={featureIndex} className="flex items-start">
@@ -113,7 +113,7 @@ export default function Services() {
           </h2>
           <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
             Contact Malloy Accounting LLC today to discuss your tax and accounting needs. 
-            We're here to help you achieve your financial goals.
+            We&rsquo;re here to help you achieve your financial goals.
           </p>
           <div className="space-y-4 sm:space-y-0 sm:space-x-4 sm:flex sm:justify-center">
             <a 

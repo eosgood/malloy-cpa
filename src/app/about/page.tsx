@@ -52,9 +52,9 @@ export default function About() {
           <div className="bg-gray-100 p-8 rounded-lg">
             <h3 className="text-xl font-semibold text-gray-900 mb-4">Our Commitment</h3>
             <blockquote className="text-gray-700 italic mb-4">
-              "We believe in building long-term relationships with our clients by providing personalized, 
+              &ldquo;We believe in building long-term relationships with our clients by providing personalized, 
               professional service that you can trust. Every client receives the same attention to detail 
-              and commitment to excellence."
+              and commitment to excellence.&rdquo;
             </blockquote>
             <cite className="text-gray-600 not-italic">— Jack Malloy, CPA</cite>
           </div>

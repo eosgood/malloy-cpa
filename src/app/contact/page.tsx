@@ -6,7 +6,7 @@ export default function Contact() {
         <div className="max-w-4xl mx-auto px-6 text-center">
           <h1 className="text-4xl font-bold text-gray-900 mb-6">Contact Malloy Accounting LLC</h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Get in touch with our professional CPA team. We're here to help with all your 
+            Get in touch with our professional CPA team. We&rsquo;re here to help with all your 
             tax and accounting needs.
           </p>
         </div>
@@ -101,7 +101,7 @@ export default function Contact() {
                 </svg>
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">Contact Form Coming Soon</h3>
                 <p className="text-gray-700 mb-4">
-                  We're currently working on our contact form. In the meantime, please reach out to us directly:
+                  We&rsquo;re currently working on our contact form. In the meantime, please reach out to us directly:
                 </p>
                 <div className="space-y-2">
                   <a 
