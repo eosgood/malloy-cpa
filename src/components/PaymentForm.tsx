@@ -19,22 +19,31 @@ export default function PaymentForm({ invoiceNumber, amount: initialAmount }: Pa
   
 
 
-  // Function to redirect to Converge hosted payment page in new window
+  // Function to redirect to Converge hosted payment page, adaptive for mobile/desktop
   const redirectToConvergeHostedPage = (token: string) => {
+    // User agent detection for mobile browsers (esp. iOS/Safari)
+    const isMobile = typeof window !== 'undefined' &&
+      /iPhone|iPad|iPod|Android|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    // iOS Safari detection (for extra reliability)
+    const isIOS = typeof window !== 'undefined' &&
+      /iPad|iPhone|iPod/.test(navigator.userAgent) && !('MSStream' in window);
+    // Use _self for mobile/iOS, _blank for desktop
+    const target = (isMobile || isIOS) ? '_self' : '_blank';
+
     // Create a form to POST to Converge hosted payment page
     const form = document.createElement('form');
     form.method = 'POST';
     form.action = 'https://api.convergepay.com/hosted-payments/';
     form.encType = 'application/x-www-form-urlencoded';
-    form.target = '_blank'; // Open in new window/tab
-    
+    form.target = target;
+
     // Add the token as a hidden input
     const tokenInput = document.createElement('input');
     tokenInput.type = 'hidden';
     tokenInput.name = 'ssl_txn_auth_token';
     tokenInput.value = token;
     form.appendChild(tokenInput);
-    
+
     // Add form to body, submit it, then remove it
     document.body.appendChild(form);
     form.submit();
