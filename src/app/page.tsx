@@ -73,31 +73,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* Development Status */}
-      <section className="py-12 bg-gray-50">
-        <div className="max-w-4xl mx-auto px-6">
-          <div className="bg-white p-8 rounded-xl shadow-lg border border-gray-200">
-            <h3 className="text-2xl font-semibold text-gray-800 text-center mb-6">
-              Development Progress
-            </h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="text-center">
-                <span className="text-sm font-semibold text-green-600">✅ Next.js 15</span>
-              </div>
-              <div className="text-center">
-                <span className="text-sm font-semibold text-green-600">✅ Tailwind CSS</span>
-              </div>
-              <div className="text-center">
-                <span className="text-sm font-semibold text-green-600">✅ Layout & Nav</span>
-              </div>
-              <div className="text-center">
-                <span className="text-sm font-semibold text-green-600">✅ Live on Vercel</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
     </div>
   );
 }
