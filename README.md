@@ -51,13 +51,37 @@ cd malloy-cpa
 npm install
 ```
 
-3. **Run development server**
+3. **Setup environment variables**
+```bash
+cp .env.example .env.local
+# Edit .env.local with your actual Elavon/Converge credentials
+```
+
+4. **Run development server**
 ```bash
 npm run dev
 ```
 
-4. **Open in browser**
+5. **Open in browser**
 Navigate to [http://localhost:3000](http://localhost:3000)
+
+### Environment Variables
+
+The payment system requires Elavon/Converge API credentials. Copy `.env.example` to `.env.local` and fill in your values:
+
+```bash
+# Elavon/Converge Payment Processing
+ELAVON_ACCOUNT_ID=your_account_id
+ELAVON_USER_ID=your_user_id  
+ELAVON_PIN=your_pin
+
+# Vercel Proxy Configuration
+VERCEL_PROXY_API_URL=your_proxy_url
+VERCEL_API_KEY=your_api_key
+VERCEL_PROTECTION_BYPASS=your_bypass_token
+```
+
+**Note:** For production deployment, these variables must also be set in your Vercel project settings.
 
 ### Available Scripts
 
