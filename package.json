@@ -8,6 +8,22 @@
     "start": "next start",
     "lint": "eslint"
   },
+  "browserslist": {
+    "production": [
+      ">0.3%",
+      "not dead",
+      "not op_mini all",
+      "Chrome >= 84",
+      "Firefox >= 78",
+      "Safari >= 14",
+      "Edge >= 84"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
   "dependencies": {
     "next": "15.5.4",
     "react": "19.1.0",

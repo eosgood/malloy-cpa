@@ -1,0 +1,13 @@
+# Modern browsers only - reduces polyfills and bundle size
+> 0.3%
+not dead
+not op_mini all
+
+# Target modern browsers to reduce polyfills
+Chrome >= 84
+Firefox >= 78
+Safari >= 14
+Edge >= 84
+
+# Exclude outdated browsers
+not IE 11
