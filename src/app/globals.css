@@ -28,9 +28,17 @@ body {
 /* Colorize a monochrome logo via mask so it uses currentColor */
 .logo-mask {
   display: inline-block;
-  width: 396px;            /* 400px - 4px for horizontal padding */
-  height: 276px;           /* 280px - 4px for vertical padding */
   background-color: currentColor;
+
+  /* Mobile first - smaller size */
+  width: 240px;
+  height: 120px;
+
+  /* Desktop - larger size */
+  @media (min-width: 1024px) {
+    width: 396px;
+    height: 276px;
+  }
 
   -webkit-mask-image: url('/logo.avif');
   mask-image: url('/logo.avif');

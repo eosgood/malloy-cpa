@@ -9,7 +9,7 @@ export default function Home() {
           <div className="flex flex-col lg:flex-row items-center lg:items-center gap-4">
             {/* Logo */}
             <div className="flex-shrink-0">
-              <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg p-0.5">
+              <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg p-2 lg:p-0.5">
                 <div 
                   className="logo-mask text-blue-600" 
                   role="img" 
