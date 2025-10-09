@@ -6,12 +6,12 @@ export default function Home() {
       {/* Hero Section */}
       <section className="py-20 bg-gradient-to-br from-blue-50 to-gray-50">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="flex flex-col lg:flex-row items-center lg:items-center gap-12">
+          <div className="flex flex-col lg:flex-row items-center lg:items-center gap-4">
             {/* Logo */}
             <div className="flex-shrink-0">
-              <div className="bg-white/90 backdrop-blur-sm rounded-2xl px-8 py-6 shadow-lg">
+              <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg p-0.5">
                 <div 
-                  className="logo-mask text-blue-600 mx-auto" 
+                  className="logo-mask text-blue-600" 
                   role="img" 
                   aria-label="Malloy Accounting LLC Logo"
                 />
@@ -20,10 +20,10 @@ export default function Home() {
             
             {/* Text Content */}
             <div className="flex-1 text-center lg:text-left">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-blue-800 mb-6 leading-tight">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-blue-800 mb-2 leading-tight">
                 Expert CPA Services
               </h1>
-              <p className="text-xl md:text-2xl text-gray-700 mb-8 leading-relaxed">
+              <p className="text-xl md:text-2xl text-gray-700 mb-4 leading-relaxed">
                 Family-owned tax practice servicing individuals and small businesses 
                 of the Central Valley. Professional accounting you can trust.
               </p>
