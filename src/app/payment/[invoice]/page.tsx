@@ -1,4 +1,4 @@
-import PaymentFormLightbox from '@/components/PaymentFormLightbox';
+import PaymentForm from '@/components/PaymentForm';
 import { notFound } from 'next/navigation';
 
 interface InvoicePaymentPageProps {
@@ -85,7 +85,7 @@ export default async function InvoicePaymentPage(props: InvoicePaymentPageProps)
             </div>
           </div>
 
-          <PaymentFormLightbox invoiceNumber={invoice} amount={amount} />
+          <PaymentForm invoiceNumber={invoice} amount={amount} />
         </div>
 
         <div className="mt-8 text-center">

@@ -2,7 +2,7 @@
 
 import Script from 'next/script';
 
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useMemo } from 'react';
 import { getConvergeApiBaseUrl } from '@/config/converge';
 
 // ---- Ambient types (move to src/types/converge.d.ts if you prefer) ----
@@ -58,6 +58,7 @@ export default function PaymentForm({ invoiceNumber, amount: initialAmount }: Pa
         setError('Amount is too large.');
         return;
       }
+
       const finalInvoiceNumber = invoiceNumber || manualInvoiceNumber || undefined;
       const res = await fetch('/api/elavon/create-session', {
         method: 'POST',
@@ -108,6 +109,16 @@ export default function PaymentForm({ invoiceNumber, amount: initialAmount }: Pa
       setLoading(false);
     }
   }, [amount, invoiceNumber, manualInvoiceNumber]);
+
+  const isContinueButtonEnabled = useMemo(() => {
+    return (
+      !loading &&
+      convergeLoaded &&
+      !!amount &&
+      parseFloat(amount) > 0 &&
+      !!(invoiceNumber || manualInvoiceNumber)
+    );
+  }, [loading, convergeLoaded, amount, invoiceNumber, manualInvoiceNumber]);
 
   return (
     <>
@@ -160,7 +171,7 @@ export default function PaymentForm({ invoiceNumber, amount: initialAmount }: Pa
               htmlFor="invoiceNumberField"
               className="block text-sm font-medium text-gray-700 mb-2"
             >
-              Invoice Number {!invoiceNumber && '(optional)'}
+              Invoice Number
             </label>
             {invoiceNumber ? (
               <div className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-700">
@@ -198,7 +209,7 @@ export default function PaymentForm({ invoiceNumber, amount: initialAmount }: Pa
         <div className="pt-4">
           <button
             type="button"
-            disabled={loading || !convergeLoaded}
+            disabled={!isContinueButtonEnabled}
             onClick={handleProcessPayment}
             className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-semibold py-4 px-6 rounded-lg text-lg transition-colors duration-200 shadow-md hover:shadow-lg disabled:cursor-not-allowed"
             title={!convergeLoaded ? 'Loading payment SDK…' : undefined}
