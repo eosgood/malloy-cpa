@@ -211,7 +211,7 @@ export default function PaymentForm({ invoiceNumber, amount: initialAmount }: Pa
             type="button"
             disabled={!isContinueButtonEnabled}
             onClick={handleProcessPayment}
-            className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-semibold py-4 px-6 rounded-lg text-lg transition-colors duration-200 shadow-md hover:shadow-lg disabled:cursor-not-allowed"
+            className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-semibold py-4 px-6 rounded-lg text-lg transition-colors duration-200 shadow-md hover:shadow-lg cursor-pointer disabled:cursor-not-allowed"
             title={!convergeLoaded ? 'Loading payment SDK…' : undefined}
           >
             {loading ? (
