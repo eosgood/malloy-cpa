@@ -1,7 +1,7 @@
-import Link from 'next/link'
+import Link from 'next/link';
 
 export default function Footer() {
-  const currentYear = new Date().getFullYear()
+  const currentYear = new Date().getFullYear();
 
   return (
     <footer className="bg-gray-900 text-white">
@@ -9,16 +9,12 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Company Info */}
           <div>
-            <h3 className="text-xl font-bold text-white mb-4">
-              Malloy Accounting LLC
-            </h3>
+            <h3 className="text-xl font-bold text-white mb-4">Malloy Accounting LLC</h3>
             <p className="text-gray-300 mb-4">
-              Family-owned tax practice servicing individuals and small businesses 
-              of the Central Valley.
+              Family-owned tax practice servicing individuals and small businesses of the Central
+              Valley.
             </p>
-            <p className="text-gray-300 text-sm">
-              CPA licensed in California
-            </p>
+            <p className="text-gray-300 text-sm">CPA licensed in California</p>
           </div>
 
           {/* Contact Information */}
@@ -56,13 +52,22 @@ export default function Footer() {
               <Link href="/" className="block text-gray-300 hover:text-white transition-colors">
                 Home
               </Link>
-              <Link href="/about" className="block text-gray-300 hover:text-white transition-colors">
+              <Link
+                href="/about"
+                className="block text-gray-300 hover:text-white transition-colors"
+              >
                 About
               </Link>
-              <Link href="/services" className="block text-gray-300 hover:text-white transition-colors">
+              <Link
+                href="/services"
+                className="block text-gray-300 hover:text-white transition-colors"
+              >
                 Services
               </Link>
-              <Link href="/contact" className="block text-gray-300 hover:text-white transition-colors">
+              <Link
+                href="/contact"
+                className="block text-gray-300 hover:text-white transition-colors"
+              >
                 Contact
               </Link>
             </nav>
@@ -84,5 +89,5 @@ export default function Footer() {
         </div>
       </div>
     </footer>
-  )
+  );
 }

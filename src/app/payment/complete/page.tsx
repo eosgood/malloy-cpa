@@ -1,5 +1,5 @@
-import { Suspense } from "react";
-import PaymentCompleteContent from "./PaymentCompleteContent";
+import { Suspense } from 'react';
+import PaymentCompleteContent from './PaymentCompleteContent';
 
 export default function PaymentCompletePage() {
   return (

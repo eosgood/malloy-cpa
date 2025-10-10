@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import { useSearchParams } from "next/navigation";
-import Link from "next/link";
+import { useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 
 export default function PaymentCompleteContent() {
   const searchParams = useSearchParams();
   // Parse Elavon/Converge params
-  const invoice = searchParams.get("ssl_invoice_number") || null;
-  const amount = searchParams.get("ssl_amount") || null;
-  const result = searchParams.get("ssl_result_message") || null;
-  const approvalCode = searchParams.get("ssl_approval_code") || null;
-  const txnId = searchParams.get("ssl_txn_id") || null;
-  const cardType = searchParams.get("ssl_card_short_description") || null;
-  const last4 = searchParams.get("ssl_card_number") || null;
+  const invoice = searchParams.get('ssl_invoice_number') || null;
+  const amount = searchParams.get('ssl_amount') || null;
+  const result = searchParams.get('ssl_result_message') || null;
+  const approvalCode = searchParams.get('ssl_approval_code') || null;
+  const txnId = searchParams.get('ssl_txn_id') || null;
+  const cardType = searchParams.get('ssl_card_short_description') || null;
+  const last4 = searchParams.get('ssl_card_number') || null;
 
   return (
     <div className="bg-gray-50 min-h-screen">
@@ -27,16 +27,45 @@ export default function PaymentCompleteContent() {
           <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6 text-center">
             <p className="text-green-800 font-semibold mb-2">Payment Details</p>
             <div className="flex flex-col items-center gap-1 text-green-900 text-base">
-              {result && <p><strong>Status:</strong> {result}</p>}
-              {invoice && <p><strong>Invoice:</strong> <span className="font-mono">{invoice}</span></p>}
-              {amount && <p><strong>Amount:</strong> ${amount}</p>}
-              {approvalCode && <p><strong>Approval Code:</strong> {approvalCode}</p>}
-              {cardType && last4 && <p><strong>Card:</strong> {cardType} ending in {last4.slice(-4)}</p>}
-              {txnId && <p className="text-xs text-green-700 mt-2"><strong>Transaction ID:</strong> {txnId}</p>}
+              {result && (
+                <p>
+                  <strong>Status:</strong> {result}
+                </p>
+              )}
+              {invoice && (
+                <p>
+                  <strong>Invoice:</strong> <span className="font-mono">{invoice}</span>
+                </p>
+              )}
+              {amount && (
+                <p>
+                  <strong>Amount:</strong> ${amount}
+                </p>
+              )}
+              {approvalCode && (
+                <p>
+                  <strong>Approval Code:</strong> {approvalCode}
+                </p>
+              )}
+              {cardType && last4 && (
+                <p>
+                  <strong>Card:</strong> {cardType} ending in {last4.slice(-4)}
+                </p>
+              )}
+              {txnId && (
+                <p className="text-xs text-green-700 mt-2">
+                  <strong>Transaction ID:</strong> {txnId}
+                </p>
+              )}
             </div>
           </div>
           <div className="text-center">
-            <Link href="/" className="inline-block bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 transition">Return Home</Link>
+            <Link
+              href="/"
+              className="inline-block bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 transition"
+            >
+              Return Home
+            </Link>
           </div>
         </div>
       </div>

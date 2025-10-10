@@ -6,11 +6,11 @@ type ConvergeEnv = 'prod' | 'demo';
  * Throws if the value is invalid or missing.
  */
 export const getConvergeEnv = (): ConvergeEnv => {
-    const env = process.env.NEXT_PUBLIC_CONVERGE_ENV;
-    if (env === 'prod' || env === 'demo') {
-        return env;
-    }
-    throw new Error(`Invalid or missing CONVERGE_ENV: "${env}". Must be 'prod' or 'demo'.`);
+  const env = process.env.NEXT_PUBLIC_CONVERGE_ENV;
+  if (env === 'prod' || env === 'demo') {
+    return env;
+  }
+  throw new Error(`Invalid or missing CONVERGE_ENV: "${env}". Must be 'prod' or 'demo'.`);
 };
 
 /**
@@ -19,10 +19,10 @@ export const getConvergeEnv = (): ConvergeEnv => {
  * - demo: https://demo.convergepay.com/
  */
 export const getConvergeApiBaseUrl = (): string => {
-    switch (getConvergeEnv()) {
-        case 'prod':
-            return 'https://api.convergepay.com/';
-        case 'demo':
-            return 'https://demo.convergepay.com/';
-    }
-}
+  switch (getConvergeEnv()) {
+    case 'prod':
+      return 'https://api.convergepay.com/';
+    case 'demo':
+      return 'https://demo.convergepay.com/';
+  }
+};

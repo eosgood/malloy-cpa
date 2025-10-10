@@ -1,13 +1,8 @@
 'use client';
 
 import Script from 'next/script';
-import {
-  useCallback,
-  useState,
-  type FormEvent,
-} from 'react';
-import {getConvergeApiBaseUrl} from '@/config/converge';
-
+import { useCallback, useState, type FormEvent } from 'react';
+import { getConvergeApiBaseUrl } from '@/config/converge';
 
 // ---- Ambient types (move to src/types/converge.d.ts if you prefer) ----
 interface PayWithConverge {
@@ -33,9 +28,7 @@ interface PaymentFormLightboxProps {
   invoiceNumber?: string;
 }
 
-type CreateSessionResponse =
-  | { success: true; token: string }
-  | { success: false; error?: string };
+type CreateSessionResponse = { success: true; token: string } | { success: false; error?: string };
 
 export default function PaymentFormLightbox({
   amount: initialAmount,

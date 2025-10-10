@@ -7,7 +7,8 @@ export default function PaymentPage() {
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">Make a Payment</h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Securely pay for services, consultations, and retainer fees using our online payment system.
+            Securely pay for services, consultations, and retainer fees using our online payment
+            system.
           </p>
         </div>
 
@@ -16,17 +17,20 @@ export default function PaymentPage() {
             <div>
               <h2 className="text-2xl font-semibold text-gray-900 mb-4">Payment Information</h2>
               <div className="space-y-3 text-gray-700">
-                <p><strong>Accepted Payment Methods:</strong></p>
+                <p>
+                  <strong>Accepted Payment Methods:</strong>
+                </p>
                 <ul className="list-disc list-inside space-y-1 ml-4">
                   <li>Visa, Mastercard, American Express, Discover</li>
                   <li>Debit Cards</li>
-
                 </ul>
                 <div className="mt-6">
-                  <p><strong>Secure Payment Processing:</strong></p>
+                  <p>
+                    <strong>Secure Payment Processing:</strong>
+                  </p>
                   <p className="text-sm text-gray-600">
-                    All payments are processed securely through Elavon/Converge. 
-                    Your payment information is encrypted and protected.
+                    All payments are processed securely through Elavon/Converge. Your payment
+                    information is encrypted and protected.
                   </p>
                 </div>
               </div>
@@ -35,11 +39,21 @@ export default function PaymentPage() {
             <div className="bg-blue-50 p-6 rounded-lg">
               <h3 className="text-xl font-semibold text-gray-900 mb-3">Need Help?</h3>
               <div className="space-y-2 text-gray-700">
-                <p><strong>Phone:</strong> <a href="tel:+1234567890" className="text-blue-600 hover:underline">(123) 456-7890</a></p>
-                <p><strong>Email:</strong> <a href="mailto:payments@malloycpa.com" className="text-blue-600 hover:underline">payments@malloycpa.com</a></p>
+                <p>
+                  <strong>Phone:</strong>{' '}
+                  <a href="tel:+1234567890" className="text-blue-600 hover:underline">
+                    (123) 456-7890
+                  </a>
+                </p>
+                <p>
+                  <strong>Email:</strong>{' '}
+                  <a href="mailto:payments@malloycpa.com" className="text-blue-600 hover:underline">
+                    payments@malloycpa.com
+                  </a>
+                </p>
                 <p className="text-sm text-gray-600 mt-4">
-                  If you have questions about your invoice or payment, 
-                  please contact our office during business hours.
+                  If you have questions about your invoice or payment, please contact our office
+                  during business hours.
                 </p>
               </div>
             </div>

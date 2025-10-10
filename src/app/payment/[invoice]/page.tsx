@@ -47,9 +47,11 @@ export default async function InvoicePaymentPage(props: InvoicePaymentPageProps)
                   <p className="text-sm text-gray-600 mb-2">Paying Invoice:</p>
                   <p className="text-lg font-semibold text-gray-900">#{invoice}</p>
                 </div>
-                
+
                 <div className="mt-6">
-                  <p><strong>Accepted Payment Methods:</strong></p>
+                  <p>
+                    <strong>Accepted Payment Methods:</strong>
+                  </p>
                   <ul className="list-disc list-inside space-y-1 ml-4 text-sm">
                     <li>Visa, Mastercard, American Express, Discover</li>
                     <li>Debit Cards</li>
@@ -59,13 +61,25 @@ export default async function InvoicePaymentPage(props: InvoicePaymentPageProps)
             </div>
 
             <div className="bg-blue-50 p-6 rounded-lg">
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Questions About This Invoice?</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                Questions About This Invoice?
+              </h3>
               <div className="space-y-2 text-gray-700">
-                <p><strong>Phone:</strong> <a href="tel:+1234567890" className="text-blue-600 hover:underline">(123) 456-7890</a></p>
-                <p><strong>Email:</strong> <a href="mailto:billing@malloycpa.com" className="text-blue-600 hover:underline">billing@malloycpa.com</a></p>
+                <p>
+                  <strong>Phone:</strong>{' '}
+                  <a href="tel:+1234567890" className="text-blue-600 hover:underline">
+                    (123) 456-7890
+                  </a>
+                </p>
+                <p>
+                  <strong>Email:</strong>{' '}
+                  <a href="mailto:billing@malloycpa.com" className="text-blue-600 hover:underline">
+                    billing@malloycpa.com
+                  </a>
+                </p>
                 <p className="text-sm text-gray-600 mt-4">
-                  Please reference invoice #{invoice} when contacting our office 
-                  about this payment or any billing questions.
+                  Please reference invoice #{invoice} when contacting our office about this payment
+                  or any billing questions.
                 </p>
               </div>
             </div>
@@ -76,7 +90,8 @@ export default async function InvoicePaymentPage(props: InvoicePaymentPageProps)
 
         <div className="mt-8 text-center">
           <p className="text-gray-600">
-            <strong>Secure Payment:</strong> All transactions are encrypted and processed securely through Elavon/Converge.
+            <strong>Secure Payment:</strong> All transactions are encrypted and processed securely
+            through Elavon/Converge.
           </p>
         </div>
       </div>

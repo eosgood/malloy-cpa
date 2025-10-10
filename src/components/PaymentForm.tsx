@@ -7,12 +7,12 @@ import { useState, useCallback } from 'react';
 import type { CreateSessionResponse } from '@/types/elavon';
 
 interface PaymentFormProps {
-    invoiceNumber?: string;
-    amount?: string;
+  invoiceNumber?: string;
+  amount?: string;
 }
 
 export default function PaymentForm({ invoiceNumber, amount: initialAmount }: PaymentFormProps) {
-   const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string>('');
   const [amount, setAmount] = useState(initialAmount || '');
   const [manualInvoiceNumber, setManualInvoiceNumber] = useState('');
@@ -20,13 +20,16 @@ export default function PaymentForm({ invoiceNumber, amount: initialAmount }: Pa
   // Function to redirect to Converge hosted payment page, adaptive for mobile/desktop
   const redirectToConvergeHostedPage = (token: string) => {
     // User agent detection for mobile browsers (esp. iOS/Safari)
-    const isMobile = typeof window !== 'undefined' &&
+    const isMobile =
+      typeof window !== 'undefined' &&
       /iPhone|iPad|iPod|Android|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     // iOS Safari detection (for extra reliability)
-    const isIOS = typeof window !== 'undefined' &&
-      /iPad|iPhone|iPod/.test(navigator.userAgent) && !('MSStream' in window);
+    const isIOS =
+      typeof window !== 'undefined' &&
+      /iPad|iPhone|iPod/.test(navigator.userAgent) &&
+      !('MSStream' in window);
     // Use _self for mobile/iOS, _blank for desktop
-    const target = (isMobile || isIOS) ? '_self' : '_blank';
+    const target = isMobile || isIOS ? '_self' : '_blank';
 
     // Create a form to POST to Converge hosted payment page
     const form = document.createElement('form');
@@ -81,14 +84,16 @@ export default function PaymentForm({ invoiceNumber, amount: initialAmount }: Pa
       }
 
       // Successfully received token from backend
-      console.log('Payment session created successfully, token received:', data.token.substring(0, 20) + '...');
-      
+      console.log(
+        'Payment session created successfully, token received:',
+        data.token.substring(0, 20) + '...'
+      );
+
       // Clear any previous errors and redirect to Converge hosted payment page
       setError('');
-      
+
       // Redirect to Converge hosted payment page
       redirectToConvergeHostedPage(data.token);
-
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Payment initialization failed');
     } finally {
@@ -105,7 +110,9 @@ export default function PaymentForm({ invoiceNumber, amount: initialAmount }: Pa
             Payment Amount *
           </label>
           <div className="relative">
-            <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
+            <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
+              $
+            </span>
             <input
               type="number"
               id="amount"
@@ -122,7 +129,10 @@ export default function PaymentForm({ invoiceNumber, amount: initialAmount }: Pa
 
         {/* Invoice Number */}
         <div>
-          <label htmlFor="invoiceNumberField" className="block text-sm font-medium text-gray-700 mb-2">
+          <label
+            htmlFor="invoiceNumberField"
+            className="block text-sm font-medium text-gray-700 mb-2"
+          >
             Invoice Number {!invoiceNumber && '(optional)'}
           </label>
           {invoiceNumber ? (
@@ -141,8 +151,6 @@ export default function PaymentForm({ invoiceNumber, amount: initialAmount }: Pa
           )}
         </div>
       </div>
-
-
 
       {/* Invoice Number Display */}
       {(invoiceNumber || manualInvoiceNumber) && (
@@ -168,9 +176,25 @@ export default function PaymentForm({ invoiceNumber, amount: initialAmount }: Pa
         >
           {isLoading ? (
             <span className="flex items-center justify-center">
-              <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              <svg
+                className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
               </svg>
               Processing...
             </span>

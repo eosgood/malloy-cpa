@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import type { CreateSessionResponse } from '@/types/elavon';
-import { getConvergeEnv, getConvergeApiBaseUrl} from '@/config/converge';
+import { getConvergeEnv, getConvergeApiBaseUrl } from '@/config/converge';
 
 // Configuration constants
 const VERCEL_PROXY_URL = process.env.VERCEL_PROXY_API_URL;
@@ -46,7 +46,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<CreateSes
   const startTime = Date.now();
 
   const convergeAuthParams = getConvergeAuthParams();
-  
+
   try {
     console.log('Getting Converge transaction token for Malloy CPA');
     console.log('Environment check:', {
@@ -55,7 +55,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<CreateSes
       hasPin: !!convergeAuthParams.ssl_pin,
       hasProxyUrl: !!VERCEL_PROXY_URL,
       hasApiKey: !!process.env.VERCEL_API_KEY,
-      hasBypass: !!process.env.VERCEL_PROTECTION_BYPASS
+      hasBypass: !!process.env.VERCEL_PROTECTION_BYPASS,
     });
 
     // Get environment variables for Malloy CPA Elavon account
@@ -71,15 +71,18 @@ export async function POST(request: NextRequest): Promise<NextResponse<CreateSes
       paymentData = await request.json();
       console.log('Payment request received:', {
         amount: paymentData?.amount,
-        invoiceNumber: paymentData?.invoiceNumber
+        invoiceNumber: paymentData?.invoiceNumber,
       });
     } catch (error) {
       console.error('Failed to parse request body:', error);
-      return NextResponse.json({
-        success: false,
-        error: 'Invalid request format',
-        errorCode: 'PARSE_ERROR',
-      }, { status: 400 });
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Invalid request format',
+          errorCode: 'PARSE_ERROR',
+        },
+        { status: 400 }
+      );
     }
 
     // Check if environment variables exist
@@ -91,25 +94,31 @@ export async function POST(request: NextRequest): Promise<NextResponse<CreateSes
       if (!apiKey) missingSecrets.push('VERCEL_API_KEY');
       if (!protectionBypass) missingSecrets.push('VERCEL_PROTECTION_BYPASS');
       if (!VERCEL_PROXY_URL) missingSecrets.push('VERCEL_PROXY_API_URL');
-      
+
       const error = `Missing required environment variables: ${missingSecrets.join(', ')}`;
       console.error('Environment configuration error:', error);
-      return NextResponse.json({
-        success: false,
-        error: 'Payment system configuration error',
-        errorCode: 'MISSING_SECRETS',
-      }, { status: 500 });
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Payment system configuration error',
+          errorCode: 'MISSING_SECRETS',
+        },
+        { status: 500 }
+      );
     }
 
     // Validate configuration
     const configError = validateConfiguration(accountId, userId, pin);
     if (configError) {
       console.error('Configuration error:', configError);
-      return NextResponse.json({
-        success: false,
-        error: 'Payment system configuration error',
-        errorCode: 'CONFIG_ERROR',
-      }, { status: 500 });
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Payment system configuration error',
+          errorCode: 'CONFIG_ERROR',
+        },
+        { status: 500 }
+      );
     }
 
     // Prepare request data for Converge token request with payment details
@@ -129,9 +138,9 @@ export async function POST(request: NextRequest): Promise<NextResponse<CreateSes
     const convergeTokenEndpoint = `${getConvergeApiBaseUrl()}/hosted-payments/transaction_token`;
     const tokenProxyUrl = `${VERCEL_PROXY_URL}?url=${encodeURIComponent(convergeTokenEndpoint)}`;
 
-    console.log('Requesting Converge transaction token', { 
-      endpoint: convergeTokenEndpoint, 
-      proxy: tokenProxyUrl.substring(0, 100) + '...' // Don't log full URL
+    console.log('Requesting Converge transaction token', {
+      endpoint: convergeTokenEndpoint,
+      proxy: tokenProxyUrl.substring(0, 100) + '...', // Don't log full URL
     });
 
     // Make API call to Converge via proxy
@@ -153,68 +162,83 @@ export async function POST(request: NextRequest): Promise<NextResponse<CreateSes
       let errorBody = '';
       try {
         errorBody = await response.text();
-        console.error('Converge API error response:', { 
-          status: response.status, 
+        console.error('Converge API error response:', {
+          status: response.status,
           statusText: response.statusText,
-          body: errorBody.substring(0, 200) // Limit log size
+          body: errorBody.substring(0, 200), // Limit log size
         });
       } catch {
         console.error('Could not read error response body');
       }
-      
-      return NextResponse.json({
-        success: false,
-        error: 'Payment system temporarily unavailable. Please try again.',
-        errorCode: `HTTP_${response.status}`,
-      }, { status: 500 });
+
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Payment system temporarily unavailable. Please try again.',
+          errorCode: `HTTP_${response.status}`,
+        },
+        { status: 500 }
+      );
     }
 
     // Parse and validate token response
     const token = await response.text();
     const trimmedToken = token?.trim();
-    
+
     if (!trimmedToken || trimmedToken.length === 0) {
       console.error('Empty or invalid token received');
-      return NextResponse.json({
-        success: false,
-        error: 'Payment system error. Please try again.',
-        errorCode: 'EMPTY_TOKEN',
-      }, { status: 500 });
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Payment system error. Please try again.',
+          errorCode: 'EMPTY_TOKEN',
+        },
+        { status: 500 }
+      );
     }
 
     // Validate token format (basic check)
-    if (trimmedToken.length < 10 || trimmedToken.includes('error') || trimmedToken.includes('Error')) {
+    if (
+      trimmedToken.length < 10 ||
+      trimmedToken.includes('error') ||
+      trimmedToken.includes('Error')
+    ) {
       console.error('Invalid token format:', trimmedToken.substring(0, 50));
-      return NextResponse.json({
-        success: false,
-        error: 'Payment system error. Please try again.',
-        errorCode: 'INVALID_TOKEN',
-      }, { status: 500 });
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Payment system error. Please try again.',
+          errorCode: 'INVALID_TOKEN',
+        },
+        { status: 500 }
+      );
     }
 
-    console.log('Successfully received Converge token', { 
+    console.log('Successfully received Converge token', {
       tokenLength: trimmedToken.length,
       responseTime,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
 
     return NextResponse.json({
       success: true,
       token: trimmedToken,
     });
-
   } catch (error) {
     const responseTime = Date.now() - startTime;
-    console.error('Failed to get Converge token', { 
+    console.error('Failed to get Converge token', {
       error: error instanceof Error ? error.message : 'Unknown error',
       responseTime,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
-    
-    return NextResponse.json({
-      success: false,
-      error: 'Payment system temporarily unavailable. Please try again.',
-      errorCode: 'NETWORK_ERROR',
-    }, { status: 500 });
+
+    return NextResponse.json(
+      {
+        success: false,
+        error: 'Payment system temporarily unavailable. Please try again.',
+        errorCode: 'NETWORK_ERROR',
+      },
+      { status: 500 }
+    );
   }
 }
