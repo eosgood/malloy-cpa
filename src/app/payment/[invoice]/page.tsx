@@ -2,13 +2,15 @@ import PaymentFormLightbox from '@/components/PaymentFormLightbox';
 import { notFound } from 'next/navigation';
 
 interface InvoicePaymentPageProps {
-  params: {
+  params: Promise<{
     invoice: string;
-  };
-  searchParams?: { [key: string]: string | string[] | undefined };
+  }>;
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
-export default function InvoicePaymentPage({ params, searchParams }: InvoicePaymentPageProps) {
+export default async function InvoicePaymentPage(props: InvoicePaymentPageProps) {
+  const searchParams = await props.searchParams;
+  const params = await props.params;
   const { invoice } = params;
   // Get amount from query string if present
   let amount: string | undefined = undefined;
