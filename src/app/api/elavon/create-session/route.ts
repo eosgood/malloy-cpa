@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import type { CreateSessionResponse } from '@/types/elavon';
+import { getConvergeEnv, getConvergeApiBaseUrl} from '@/config/converge';
 
 // Configuration constants
 const VERCEL_PROXY_URL = process.env.VERCEL_PROXY_API_URL;
-const CONVERGE_API_BASE = 'https://api.convergepay.com';
 
 // Validation helper
 const validateConfiguration = (accountId: string, userId: string, pin: string): string | null => {
@@ -14,6 +14,29 @@ const validateConfiguration = (accountId: string, userId: string, pin: string): 
   return null;
 };
 
+type ConvergeAuthParams = {
+  ssl_merchant_id: string | undefined;
+  ssl_user_id: string | undefined;
+  ssl_pin: string | undefined;
+};
+
+const getConvergeAuthParams = (): ConvergeAuthParams => {
+  switch (getConvergeEnv()) {
+    case 'prod':
+      return {
+        ssl_merchant_id: process.env.ELAVON_ACCOUNT_ID,
+        ssl_user_id: process.env.ELAVON_USER_ID,
+        ssl_pin: process.env.ELAVON_PIN,
+      };
+    case 'demo':
+      return {
+        ssl_merchant_id: process.env.ELAVON_DEMO_ACCOUNT_ID,
+        ssl_user_id: process.env.ELAVON_DEMO_USER_ID,
+        ssl_pin: process.env.ELAVON_DEMO_PIN,
+      };
+  }
+};
+
 /**
  * POST /api/elavon/create-session
  * Gets a Converge transaction token for lightbox payment
@@ -21,22 +44,24 @@ const validateConfiguration = (accountId: string, userId: string, pin: string): 
  */
 export async function POST(request: NextRequest): Promise<NextResponse<CreateSessionResponse>> {
   const startTime = Date.now();
+
+  const convergeAuthParams = getConvergeAuthParams();
   
   try {
     console.log('Getting Converge transaction token for Malloy CPA');
     console.log('Environment check:', {
-      hasAccountId: !!process.env.ELAVON_ACCOUNT_ID,
-      hasUserId: !!process.env.ELAVON_USER_ID,
-      hasPin: !!process.env.ELAVON_PIN,
+      hasAccountId: !!convergeAuthParams.ssl_merchant_id,
+      hasUserId: !!convergeAuthParams.ssl_user_id,
+      hasPin: !!convergeAuthParams.ssl_pin,
       hasProxyUrl: !!VERCEL_PROXY_URL,
       hasApiKey: !!process.env.VERCEL_API_KEY,
       hasBypass: !!process.env.VERCEL_PROTECTION_BYPASS
     });
 
     // Get environment variables for Malloy CPA Elavon account
-    const accountId = process.env.ELAVON_ACCOUNT_ID;
-    const userId = process.env.ELAVON_USER_ID;
-    const pin = process.env.ELAVON_PIN;
+    const accountId = convergeAuthParams.ssl_merchant_id;
+    const userId = convergeAuthParams.ssl_user_id;
+    const pin = convergeAuthParams.ssl_pin;
     const apiKey = process.env.VERCEL_API_KEY;
     const protectionBypass = process.env.VERCEL_PROTECTION_BYPASS;
 
@@ -101,7 +126,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<CreateSes
     const tokenFormData = new URLSearchParams(formDataEntries);
 
     // Build request URL using Vercel proxy
-    const convergeTokenEndpoint = `${CONVERGE_API_BASE}/hosted-payments/transaction_token`;
+    const convergeTokenEndpoint = `${getConvergeApiBaseUrl()}/hosted-payments/transaction_token`;
     const tokenProxyUrl = `${VERCEL_PROXY_URL}?url=${encodeURIComponent(convergeTokenEndpoint)}`;
 
     console.log('Requesting Converge transaction token', { 

@@ -6,6 +6,8 @@ import {
   useState,
   type FormEvent,
 } from 'react';
+import {getConvergeApiBaseUrl} from '@/config/converge';
+
 
 // ---- Ambient types (move to src/types/converge.d.ts if you prefer) ----
 interface PayWithConverge {
@@ -156,7 +158,7 @@ export default function PaymentFormLightbox({
       {jqLoaded && (
         <Script
           id="converge-lightbox-js"
-          src="https://api.convergepay.com/hosted-payments/PayWithConverge.js"
+          src={`${getConvergeApiBaseUrl()}hosted-payments/PayWithConverge.js`}
           strategy="afterInteractive"
           onLoad={() => setConvergeLoaded(true)}
         />
