@@ -1,7 +1,9 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
+// eslint.config.mjs
+import { dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 import { FlatCompat } from "@eslint/eslintrc";
 
+// OPTIONAL: Prettier integration (remove if you don't want it)
 import eslintConfigPrettier from "eslint-config-prettier";
 import prettierPlugin from "eslint-plugin-prettier";
 
@@ -13,36 +15,28 @@ const compat = new FlatCompat({
 });
 
 export default [
-  // Global ignores (won’t be linted at all)
+  // Global ignores
   {
     ignores: [
-      // deps & builds
       "node_modules/**",
       ".next/**",
       "out/**",
       "build/**",
-      // lock/config/generated files
       "package-lock.json",
       "pnpm-lock.yaml",
       "yarn.lock",
       "next-env.d.ts",
       "*.config.*",
-      // env files
       ".env",
       ".env.*",
-      // misc
-      "coverage/**",
-      "storybook-static/**",
     ],
   },
 
-  // Next.js + TS rules via compat
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
+  ...compat.config({
+    extends: ["next/core-web-vitals", "next/typescript"],
+  }),
 
-  // Turn off rules that conflict with Prettier
   eslintConfigPrettier,
-
-  // Surface Prettier as lint errors
   {
     plugins: { prettier: prettierPlugin },
     rules: {

@@ -1,10 +1,32 @@
 'use client';
 
-// Helper: Check if running in client/browser
-const isClient = () => typeof window !== 'undefined';
+import Script from 'next/script';
 
-import { useState, useCallback } from 'react';
-import type { CreateSessionResponse } from '@/types/elavon';
+import { useCallback, useState } from 'react';
+import { getConvergeApiBaseUrl } from '@/config/converge';
+
+// ---- Ambient types (move to src/types/converge.d.ts if you prefer) ----
+interface PayWithConverge {
+  open: (
+    options: { ssl_txn_auth_token: string },
+    handlers: {
+      onError: (err: unknown) => void;
+      onCancelled: () => void;
+      onDeclined: (resp: Record<string, unknown>) => void;
+      onApproval: (resp: Record<string, unknown>) => void;
+    }
+  ) => void;
+}
+
+declare global {
+  interface Window {
+    PayWithConverge?: PayWithConverge;
+  }
+}
+
+type PaymentResultStatus = '' | 'error' | 'cancelled' | 'declined' | 'approval';
+
+type CreateSessionResponse = { success: true; token: string } | { success: false; error?: string };
 
 interface PaymentFormProps {
   invoiceNumber?: string;
@@ -12,201 +34,219 @@ interface PaymentFormProps {
 }
 
 export default function PaymentForm({ invoiceNumber, amount: initialAmount }: PaymentFormProps) {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string>('');
+  const [jqLoaded, setJqLoaded] = useState(false);
+  const [convergeLoaded, setConvergeLoaded] = useState(false);
+  const [status, setStatus] = useState<PaymentResultStatus>('');
+  const [response, setResponse] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const [amount, setAmount] = useState(initialAmount || '');
   const [manualInvoiceNumber, setManualInvoiceNumber] = useState('');
 
-  // Function to redirect to Converge hosted payment page, adaptive for mobile/desktop
-  const redirectToConvergeHostedPage = (token: string) => {
-    // User agent detection for mobile browsers (esp. iOS/Safari)
-    const isMobile =
-      typeof window !== 'undefined' &&
-      /iPhone|iPad|iPod|Android|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    // iOS Safari detection (for extra reliability)
-    const isIOS =
-      typeof window !== 'undefined' &&
-      /iPad|iPhone|iPod/.test(navigator.userAgent) &&
-      !('MSStream' in window);
-    // Use _self for mobile/iOS, _blank for desktop
-    const target = isMobile || isIOS ? '_self' : '_blank';
-
-    // Create a form to POST to Converge hosted payment page
-    const form = document.createElement('form');
-    form.method = 'POST';
-    form.action = 'https://api.convergepay.com/hosted-payments/';
-    form.encType = 'application/x-www-form-urlencoded';
-    form.target = target;
-
-    // Add the token as a hidden input
-    const tokenInput = document.createElement('input');
-    tokenInput.type = 'hidden';
-    tokenInput.name = 'ssl_txn_auth_token';
-    tokenInput.value = token;
-    form.appendChild(tokenInput);
-
-    // Add form to body, submit it, then remove it
-    document.body.appendChild(form);
-    form.submit();
-    document.body.removeChild(form);
-  };
-
-  const handlePayment = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
+  // Fetch token and open lightbox
+  const handleProcessPayment = useCallback(async () => {
+    setLoading(true);
     setError('');
-
+    setStatus('');
     try {
-      // Basic validation
-      if (!amount || parseFloat(amount) <= 0) {
-        throw new Error('Please enter a valid payment amount');
+      const numericAmount = parseFloat(amount);
+      if (!Number.isFinite(numericAmount) || numericAmount <= 0) {
+        setError('Please enter a valid payment amount greater than zero.');
+        return;
       }
-
-      // Determine the final invoice number to use
+      if (amount.length > 10) {
+        setError('Amount is too large.');
+        return;
+      }
       const finalInvoiceNumber = invoiceNumber || manualInvoiceNumber || undefined;
-
-      // Call our API to create payment session
-      const response = await fetch('/api/elavon/create-session', {
+      const res = await fetch('/api/elavon/create-session', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          amount: parseFloat(amount),
+          amount: numericAmount,
           invoiceNumber: finalInvoiceNumber,
         }),
       });
-
-      const data: CreateSessionResponse = await response.json();
-
-      if (!data.success || !data.token) {
-        throw new Error(data.error || 'Failed to initialize payment');
+      if (!res.ok) {
+        const errorText = await res.text();
+        throw new Error(errorText || 'Payment system error. Please try again.');
       }
-
-      // Successfully received token from backend
-      console.log(
-        'Payment session created successfully, token received:',
-        data.token.substring(0, 20) + '...'
-      );
-
-      // Clear any previous errors and redirect to Converge hosted payment page
+      const data: CreateSessionResponse = await res.json();
+      if (!('success' in data) || !data.success || !('token' in data) || !data.token) {
+        throw new Error((data as { error?: string }).error || 'No token returned');
+      }
       setError('');
-
-      // Redirect to Converge hosted payment page
-      redirectToConvergeHostedPage(data.token);
-    } catch (err) {
+      // Open lightbox if loaded
+      if (!window.PayWithConverge) {
+        setError('Elavon Lightbox script not loaded.');
+        return;
+      }
+      window.PayWithConverge.open(
+        { ssl_txn_auth_token: data.token },
+        {
+          onError: (err: unknown) => {
+            setStatus('error');
+            setResponse(typeof err === 'string' ? err : JSON.stringify(err));
+          },
+          onCancelled: () => {
+            setStatus('cancelled');
+            setResponse('');
+          },
+          onDeclined: (resp: Record<string, unknown>) => {
+            setStatus('declined');
+            setResponse(JSON.stringify(resp, null, 2));
+          },
+          onApproval: (resp: Record<string, unknown>) => {
+            setStatus('approval');
+            setResponse(JSON.stringify(resp, null, 2));
+          },
+        }
+      );
+    } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Payment initialization failed');
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
-  };
+  }, [amount, invoiceNumber, manualInvoiceNumber]);
 
   return (
-    <form onSubmit={handlePayment} className="space-y-6">
-      <div className="grid md:grid-cols-2 gap-6">
-        {/* Payment Amount */}
-        <div>
-          <label htmlFor="amount" className="block text-sm font-medium text-gray-700 mb-2">
-            Payment Amount *
-          </label>
-          <div className="relative">
-            <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
-              $
-            </span>
-            <input
-              type="number"
-              id="amount"
-              step="0.01"
-              min="0.01"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-              className="w-full pl-8 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
-              placeholder="0.00"
-              required
-            />
+    <>
+      {/* 1) jQuery first */}
+      <Script
+        id="jquery-cdn"
+        src="https://code.jquery.com/jquery-3.6.0.min.js"
+        strategy="afterInteractive"
+        onLoad={() => setJqLoaded(true)}
+      />
+
+      {/* 2) Converge only after jQuery is present */}
+      {jqLoaded && (
+        <Script
+          id="converge-lightbox-js"
+          src={`${getConvergeApiBaseUrl()}hosted-payments/PayWithConverge.js`}
+          strategy="afterInteractive"
+          onLoad={() => setConvergeLoaded(true)}
+        />
+      )}
+
+      <div className="space-y-6">
+        <div className="grid md:grid-cols-2 gap-6">
+          {/* Payment Amount */}
+          <div>
+            <label htmlFor="amount" className="block text-sm font-medium text-gray-700 mb-2">
+              Payment Amount *
+            </label>
+            <div className="relative">
+              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
+                $
+              </span>
+              <input
+                type="number"
+                id="amount"
+                step="0.01"
+                min="0.01"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                className="w-full pl-8 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
+                placeholder="0.00"
+                required
+              />
+            </div>
+          </div>
+
+          {/* Invoice Number */}
+          <div>
+            <label
+              htmlFor="invoiceNumberField"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
+              Invoice Number {!invoiceNumber && '(optional)'}
+            </label>
+            {invoiceNumber ? (
+              <div className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-700">
+                #{invoiceNumber}
+              </div>
+            ) : (
+              <input
+                type="text"
+                id="invoiceNumberField"
+                value={manualInvoiceNumber}
+                onChange={(e) => setManualInvoiceNumber(e.target.value)}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
+                placeholder="INV-2024-001"
+              />
+            )}
           </div>
         </div>
 
-        {/* Invoice Number */}
-        <div>
-          <label
-            htmlFor="invoiceNumberField"
-            className="block text-sm font-medium text-gray-700 mb-2"
+        {/* Invoice Number Display */}
+        {(invoiceNumber || manualInvoiceNumber) && (
+          <div className="bg-gray-50 p-4 rounded-lg">
+            <p className="text-sm text-gray-600">Invoice Number:</p>
+            <p className="font-semibold text-gray-900">#{invoiceNumber || manualInvoiceNumber}</p>
+          </div>
+        )}
+
+        {/* Error Display */}
+        {error && (
+          <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+            <p className="text-red-700">{error}</p>
+          </div>
+        )}
+
+        {/* Submit Button */}
+        <div className="pt-4">
+          <button
+            type="button"
+            disabled={loading || !convergeLoaded}
+            onClick={handleProcessPayment}
+            className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-semibold py-4 px-6 rounded-lg text-lg transition-colors duration-200 shadow-md hover:shadow-lg disabled:cursor-not-allowed"
+            title={!convergeLoaded ? 'Loading payment SDK…' : undefined}
           >
-            Invoice Number {!invoiceNumber && '(optional)'}
-          </label>
-          {invoiceNumber ? (
-            <div className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-700">
-              #{invoiceNumber}
+            {loading ? (
+              <span className="flex items-center justify-center">
+                <svg
+                  className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
+                </svg>
+                Processing...
+              </span>
+            ) : (
+              `Continue to Secure Payment${amount ? ` ($${amount})` : ''}`
+            )}
+          </button>
+        </div>
+
+        {/* Lightbox status/result display */}
+        {(status || response) && (
+          <div className="mt-6">
+            <div className="text-sm text-gray-700">
+              Transaction Status: <span className="font-semibold">{status}</span>
             </div>
-          ) : (
-            <input
-              type="text"
-              id="invoiceNumberField"
-              value={manualInvoiceNumber}
-              onChange={(e) => setManualInvoiceNumber(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
-              placeholder="INV-2024-001"
-            />
-          )}
-        </div>
+            <div className="text-xs text-gray-600 whitespace-pre-wrap mt-2">{response}</div>
+            {error && <div className="mt-2 text-red-600">{error}</div>}
+          </div>
+        )}
       </div>
-
-      {/* Invoice Number Display */}
-      {(invoiceNumber || manualInvoiceNumber) && (
-        <div className="bg-gray-50 p-4 rounded-lg">
-          <p className="text-sm text-gray-600">Invoice Number:</p>
-          <p className="font-semibold text-gray-900">#{invoiceNumber || manualInvoiceNumber}</p>
-        </div>
-      )}
-
-      {/* Error Display */}
-      {error && (
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-          <p className="text-red-700">{error}</p>
-        </div>
-      )}
-
-      {/* Submit Button */}
-      <div className="pt-4">
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-semibold py-4 px-6 rounded-lg text-lg transition-colors duration-200 shadow-md hover:shadow-lg disabled:cursor-not-allowed"
-        >
-          {isLoading ? (
-            <span className="flex items-center justify-center">
-              <svg
-                className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                ></circle>
-                <path
-                  className="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                ></path>
-              </svg>
-              Processing...
-            </span>
-          ) : (
-            `Continue to Secure Payment${amount ? ` ($${amount})` : ''}`
-          )}
-        </button>
-      </div>
-
-      <div className="text-center text-sm text-gray-500">
+      <div className="text-center text-sm text-gray-500 mt-6">
         <p>🔒 Your payment information is encrypted and secure</p>
       </div>
-    </form>
+    </>
   );
 }
