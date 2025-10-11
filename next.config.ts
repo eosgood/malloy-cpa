@@ -1,4 +1,4 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   // Compiler optimizations for modern browsers
@@ -9,7 +9,7 @@ const nextConfig: NextConfig = {
 
   // Performance optimizations
   poweredByHeader: false,
-  
+
   // Security headers
   async headers() {
     return [
@@ -30,7 +30,7 @@ const nextConfig: NextConfig = {
           },
         ],
       },
-    ]
+    ];
   },
 };
 

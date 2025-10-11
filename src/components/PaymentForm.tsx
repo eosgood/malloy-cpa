@@ -72,7 +72,7 @@ export default function PaymentForm({ invoiceNumber, amount: initialAmount }: Pa
         const errorText = await res.text();
         throw new Error(errorText || 'Payment system error. Please try again.');
       }
-      const data: CreateSessionResponse = await res.json();
+      const data = (await res.json()) as CreateSessionResponse;
       if (!('success' in data) || !data.success || !('token' in data) || !data.token) {
         throw new Error((data as { error?: string }).error || 'No token returned');
       }
@@ -210,7 +210,9 @@ export default function PaymentForm({ invoiceNumber, amount: initialAmount }: Pa
           <button
             type="button"
             disabled={!isContinueButtonEnabled}
-            onClick={handleProcessPayment}
+            onClick={() => {
+              void handleProcessPayment();
+            }}
             className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-semibold py-4 px-6 rounded-lg text-lg transition-colors duration-200 shadow-md hover:shadow-lg cursor-pointer disabled:cursor-not-allowed"
             title={!convergeLoaded ? 'Loading payment SDK…' : undefined}
           >

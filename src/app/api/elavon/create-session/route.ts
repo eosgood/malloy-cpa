@@ -1,3 +1,5 @@
+// Type for expected payment request body
+type PaymentRequest = { amount: number; invoiceNumber?: string };
 import { NextRequest, NextResponse } from 'next/server';
 import type { CreateSessionResponse } from '@/types/elavon';
 import { getConvergeEnv, getConvergeApiBaseUrl } from '@/config/converge';
@@ -66,12 +68,12 @@ export async function POST(request: NextRequest): Promise<NextResponse<CreateSes
     const protectionBypass = process.env.VERCEL_PROTECTION_BYPASS;
 
     // Parse request body for payment details
-    let paymentData;
+    let paymentData: PaymentRequest;
     try {
-      paymentData = await request.json();
+      paymentData = (await request.json()) as PaymentRequest;
       console.log('Payment request received:', {
-        amount: paymentData?.amount,
-        invoiceNumber: paymentData?.invoiceNumber,
+        amount: paymentData.amount,
+        invoiceNumber: paymentData.invoiceNumber,
       });
     } catch (error) {
       console.error('Failed to parse request body:', error);
@@ -128,8 +130,10 @@ export async function POST(request: NextRequest): Promise<NextResponse<CreateSes
       ssl_pin: pin,
       ssl_transaction_type: 'ccsale',
       // Include payment details in token request
-      ...(paymentData?.amount && { ssl_amount: paymentData.amount.toString() }),
-      ...(paymentData?.invoiceNumber && { ssl_invoice_number: paymentData.invoiceNumber }),
+      ...(typeof paymentData.amount === 'number' && paymentData.amount > 0
+        ? { ssl_amount: paymentData.amount.toString() }
+        : {}),
+      ...(paymentData.invoiceNumber ? { ssl_invoice_number: paymentData.invoiceNumber } : {}),
     };
 
     const tokenFormData = new URLSearchParams(formDataEntries);
