@@ -59,19 +59,5 @@ export default [
   eslintConfigPrettier,
   {
     plugins: { prettier: prettierPlugin },
-    rules: {
-      'prettier/prettier': [
-        'error',
-        {
-          semi: true,
-          singleQuote: true,
-          trailingComma: 'es5',
-          tabWidth: 2,
-          printWidth: 100,
-          bracketSpacing: true,
-          arrowParens: 'always',
-        },
-      ],
-    },
   },
 ];

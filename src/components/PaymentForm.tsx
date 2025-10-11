@@ -2,7 +2,7 @@
 
 import Script from 'next/script';
 
-import { useCallback, useState, useMemo } from 'react';
+import { useCallback, useState, useMemo, useEffect } from 'react';
 import { getConvergeApiBaseUrl } from '@/config/converge';
 
 // ---- Ambient types (move to src/types/converge.d.ts if you prefer) ----
@@ -31,23 +31,58 @@ type CreateSessionResponse = { success: true; token: string } | { success: false
 interface PaymentFormProps {
   invoiceNumber?: string;
   amount?: string;
+  email?: string;
 }
 
-export default function PaymentForm({ invoiceNumber, amount: initialAmount }: PaymentFormProps) {
+export default function PaymentForm({
+  invoiceNumber,
+  amount: initialAmount,
+  email: initialEmail,
+}: PaymentFormProps) {
   const [jqLoaded, setJqLoaded] = useState(false);
   const [convergeLoaded, setConvergeLoaded] = useState(false);
-  const [status, setStatus] = useState<PaymentResultStatus>('');
-  const [response, setResponse] = useState('');
+  const [statusResponse, setStatusResponse] = useState<[PaymentResultStatus, string]>(['', '']);
+  const status = statusResponse[0];
+  const response = statusResponse[1];
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [amount, setAmount] = useState(initialAmount || '');
   const [manualInvoiceNumber, setManualInvoiceNumber] = useState('');
+  const [manualEmail, setManualEmail] = useState('');
+
+  // Helper to get the current email value and invoice number (must be after useState)
+  const currentEmail = initialEmail || manualEmail;
+  const currentInvoiceNumber = invoiceNumber || manualInvoiceNumber;
+
+  // Side effect: send email when payment is approved
+  useEffect(() => {
+    if (status === 'approval' && currentEmail && currentInvoiceNumber && amount) {
+      // Only send email if all required fields are present
+      const numericAmount = parseFloat(amount);
+      if (!Number.isFinite(numericAmount) || numericAmount <= 0) return;
+      // Fire and forget
+      fetch('/api/email/payment/approval', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          invoiceId: currentInvoiceNumber,
+          amount: numericAmount,
+          email: currentEmail,
+          responseJson: response,
+        }),
+      }).catch((err) => {
+        // Optionally log error, but don't block UI
+        console.error('Failed to send payment approval email', err);
+      });
+    }
+    // Only run when status, email, invoice, or amount changes
+  }, [status, currentEmail, currentInvoiceNumber, amount]);
 
   // Fetch token and open lightbox
   const handleProcessPayment = useCallback(async () => {
     setLoading(true);
     setError('');
-    setStatus('');
+    setStatusResponse(['', '']);
     try {
       const numericAmount = parseFloat(amount);
       if (!Number.isFinite(numericAmount) || numericAmount <= 0) {
@@ -76,7 +111,6 @@ export default function PaymentForm({ invoiceNumber, amount: initialAmount }: Pa
       if (!('success' in data) || !data.success || !('token' in data) || !data.token) {
         throw new Error((data as { error?: string }).error || 'No token returned');
       }
-      setError('');
       // Open lightbox if loaded
       if (!window.PayWithConverge) {
         setError('Elavon Lightbox script not loaded.');
@@ -86,20 +120,16 @@ export default function PaymentForm({ invoiceNumber, amount: initialAmount }: Pa
         { ssl_txn_auth_token: data.token },
         {
           onError: (err: unknown) => {
-            setStatus('error');
-            setResponse(typeof err === 'string' ? err : JSON.stringify(err));
+            setStatusResponse(['error', typeof err === 'string' ? err : JSON.stringify(err)]);
           },
           onCancelled: () => {
-            setStatus('cancelled');
-            setResponse('');
+            setStatusResponse(['cancelled', '']);
           },
           onDeclined: (resp: Record<string, unknown>) => {
-            setStatus('declined');
-            setResponse(JSON.stringify(resp, null, 2));
+            setStatusResponse(['declined', JSON.stringify(resp)]);
           },
           onApproval: (resp: Record<string, unknown>) => {
-            setStatus('approval');
-            setResponse(JSON.stringify(resp, null, 2));
+            setStatusResponse(['approval', JSON.stringify(resp)]);
           },
         }
       );
@@ -116,9 +146,18 @@ export default function PaymentForm({ invoiceNumber, amount: initialAmount }: Pa
       convergeLoaded &&
       !!amount &&
       parseFloat(amount) > 0 &&
-      !!(invoiceNumber || manualInvoiceNumber)
+      !!(invoiceNumber || manualInvoiceNumber) &&
+      !!(initialEmail || manualEmail)
     );
-  }, [loading, convergeLoaded, amount, invoiceNumber, manualInvoiceNumber]);
+  }, [
+    loading,
+    convergeLoaded,
+    amount,
+    invoiceNumber,
+    manualInvoiceNumber,
+    initialEmail,
+    manualEmail,
+  ]);
 
   return (
     <>
@@ -185,6 +224,29 @@ export default function PaymentForm({ invoiceNumber, amount: initialAmount }: Pa
                 onChange={(e) => setManualInvoiceNumber(e.target.value)}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
                 placeholder="INV-2024-001"
+                required
+              />
+            )}
+          </div>
+
+          {/* Email */}
+          <div>
+            <label htmlFor="emailField" className="block text-sm font-medium text-gray-700 mb-2">
+              Email
+            </label>
+            {initialEmail ? (
+              <div className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-700">
+                {initialEmail}
+              </div>
+            ) : (
+              <input
+                type="email"
+                id="emailField"
+                value={manualEmail}
+                onChange={(e) => setManualEmail(e.target.value)}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
+                placeholder="you@email.com"
+                required
               />
             )}
           </div>
@@ -245,17 +307,6 @@ export default function PaymentForm({ invoiceNumber, amount: initialAmount }: Pa
             )}
           </button>
         </div>
-
-        {/* Lightbox status/result display */}
-        {(status || response) && (
-          <div className="mt-6">
-            <div className="text-sm text-gray-700">
-              Transaction Status: <span className="font-semibold">{status}</span>
-            </div>
-            <div className="text-xs text-gray-600 whitespace-pre-wrap mt-2">{response}</div>
-            {error && <div className="mt-2 text-red-600">{error}</div>}
-          </div>
-        )}
       </div>
       <div className="text-center text-sm text-gray-500 mt-6">
         <p>🔒 Your payment information is encrypted and secure</p>
