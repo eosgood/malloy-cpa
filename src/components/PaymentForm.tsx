@@ -4,6 +4,7 @@ import Script from 'next/script';
 
 import { useCallback, useState, useMemo, useEffect } from 'react';
 import { getConvergeApiBaseUrl } from '@/config/converge';
+import { useCsrf } from '@/hooks/useCsrf';
 
 // ---- Ambient types (move to src/types/converge.d.ts if you prefer) ----
 interface PayWithConverge {
@@ -54,16 +55,20 @@ export default function PaymentForm({
   const currentEmail = initialEmail || manualEmail;
   const currentInvoiceNumber = invoiceNumber || manualInvoiceNumber;
 
+  const csrf = useCsrf();
+
   // Side effect: send email when payment is approved
   useEffect(() => {
     if (status === 'approval' && currentEmail && currentInvoiceNumber && amount) {
       // Only send email if all required fields are present
       const numericAmount = parseFloat(amount);
       if (!Number.isFinite(numericAmount) || numericAmount <= 0) return;
+
+      console.log('csrf token for email', csrf);
       // Fire and forget
       fetch('/api/email/payment/approval', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'x-csrf': csrf ?? '' },
         body: JSON.stringify({
           invoiceId: currentInvoiceNumber,
           amount: numericAmount,
@@ -97,7 +102,7 @@ export default function PaymentForm({
       const finalInvoiceNumber = invoiceNumber || manualInvoiceNumber || undefined;
       const res = await fetch('/api/elavon/create-session', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'x-csrf': csrf ?? '' },
         body: JSON.stringify({
           amount: numericAmount,
           invoiceNumber: finalInvoiceNumber,

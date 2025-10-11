@@ -1,8 +1,8 @@
 // Type for expected payment request body
-type PaymentRequest = { amount: number; invoiceNumber?: string };
-import { NextRequest, NextResponse } from 'next/server';
-import type { CreateSessionResponse } from '@/types/elavon';
+import { NextResponse } from 'next/server';
 import { getConvergeEnv, getConvergeApiBaseUrl } from '@/config/converge';
+import { withProtection } from '@/app/lib/api/protect';
+import { z } from 'zod';
 
 // Configuration constants
 const VERCEL_PROXY_URL = process.env.VERCEL_PROXY_API_URL;
@@ -39,12 +39,24 @@ const getConvergeAuthParams = (): ConvergeAuthParams => {
   }
 };
 
+const Body = z.object({
+  amount: z.number().int().positive(),
+  invoiceNumber: z.string(),
+});
+
 /**
  * POST /api/elavon/create-session
  * Gets a Converge transaction token for lightbox payment
  * Called by frontend payment form to get token for PayWithConverge.open()
  */
-export async function POST(request: NextRequest): Promise<NextResponse<CreateSessionResponse>> {
+export const POST = withProtection(async (req /* Request */, _ctx, { badRequest }) => {
+  let raw: unknown;
+  try {
+    raw = await req.json();
+  } catch {
+    return badRequest('Invalid JSON');
+  }
+
   const startTime = Date.now();
 
   const convergeAuthParams = getConvergeAuthParams();
@@ -68,12 +80,19 @@ export async function POST(request: NextRequest): Promise<NextResponse<CreateSes
     const protectionBypass = process.env.VERCEL_PROTECTION_BYPASS;
 
     // Parse request body for payment details
-    let paymentData: PaymentRequest;
+    let amount: number;
+    let invoiceNumber: string;
     try {
-      paymentData = (await request.json()) as PaymentRequest;
+      console.log('Parsing request body:', raw);
+      const parsed = Body.safeParse(raw);
+      if (!parsed.success) {
+        return badRequest('Invalid body');
+      }
+      amount = parsed.data.amount;
+      invoiceNumber = parsed.data.invoiceNumber;
       console.log('Payment request received:', {
-        amount: paymentData.amount,
-        invoiceNumber: paymentData.invoiceNumber,
+        amount: amount,
+        invoiceNumber: invoiceNumber,
       });
     } catch (error) {
       console.error('Failed to parse request body:', error);
@@ -130,10 +149,8 @@ export async function POST(request: NextRequest): Promise<NextResponse<CreateSes
       ssl_pin: pin,
       ssl_transaction_type: 'ccsale',
       // Include payment details in token request
-      ...(typeof paymentData.amount === 'number' && paymentData.amount > 0
-        ? { ssl_amount: paymentData.amount.toString() }
-        : {}),
-      ...(paymentData.invoiceNumber ? { ssl_invoice_number: paymentData.invoiceNumber } : {}),
+      ...(typeof amount === 'number' && amount > 0 ? { ssl_amount: amount.toString() } : {}),
+      ...(invoiceNumber ? { ssl_invoice_number: invoiceNumber } : {}),
     };
 
     const tokenFormData = new URLSearchParams(formDataEntries);
@@ -245,4 +262,4 @@ export async function POST(request: NextRequest): Promise<NextResponse<CreateSes
       { status: 500 }
     );
   }
-}
+});
