@@ -11,7 +11,7 @@ export default function Home() {
             <div className="flex-shrink-0">
               <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg p-2 lg:p-0.5">
                 <div
-                  className="logo-mask text-blue-600"
+                  className="logo-mask text-slate-600"
                   role="img"
                   aria-label="Malloy Accounting LLC Logo"
                 />
@@ -20,7 +20,7 @@ export default function Home() {
 
             {/* Text Content */}
             <div className="flex-1 text-center lg:text-left">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-blue-800 mb-2 leading-tight">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-600 mb-2 leading-tight">
                 Expert CPA Services
               </h1>
               <p className="text-xl md:text-2xl text-gray-700 mb-4 leading-relaxed">
@@ -50,8 +50,10 @@ export default function Home() {
       <section className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Why Choose Malloy Accounting?</h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+            <h2 className="text-3xl font-bold text-slate-900 mb-4">
+              Why Choose Malloy Accounting?
+            </h2>
+            <p className="text-lg text-slate-600 max-w-3xl mx-auto">
               We combine professional expertise with personalized service to deliver exceptional
               results for our clients.
             </p>
@@ -61,7 +63,7 @@ export default function Home() {
             <div className="text-center p-6">
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg
-                  className="w-8 h-8 text-blue-600"
+                  className="w-8 h-8 text-slate-600"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -74,8 +76,8 @@ export default function Home() {
                   />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Personal Service</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-semibold text-slate-900 mb-3">Personal Service</h3>
+              <p className="text-slate-600">
                 Direct access to your CPA with personalized attention and customized solutions for
                 your unique financial situation.
               </p>
@@ -84,7 +86,7 @@ export default function Home() {
             <div className="text-center p-6">
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg
-                  className="w-8 h-8 text-blue-600"
+                  className="w-8 h-8 text-slate-600"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -97,8 +99,8 @@ export default function Home() {
                   />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Proven Experience</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-semibold text-slate-900 mb-3">Proven Experience</h3>
+              <p className="text-slate-600">
                 Over a decade of public accounting experience with deep expertise in tax
                 preparation, planning, and business consulting.
               </p>
@@ -107,7 +109,7 @@ export default function Home() {
             <div className="text-center p-6">
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg
-                  className="w-8 h-8 text-blue-600"
+                  className="w-8 h-8 text-slate-600"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -126,8 +128,8 @@ export default function Home() {
                   />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Local Expertise</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-semibold text-slate-900 mb-3">Local Expertise</h3>
+              <p className="text-slate-600">
                 Deep understanding of local business environments, applicable regulations, and tax
                 and accounting considerations to support clients across regions.
               </p>
@@ -140,8 +142,8 @@ export default function Home() {
       <section className="py-16 bg-gray-50">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Our Core Services</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <h2 className="text-3xl font-bold text-slate-900 mb-4">Our Core Services</h2>
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
               Comprehensive CPA services designed to support your financial success
             </p>
           </div>
@@ -150,7 +152,7 @@ export default function Home() {
             <div className="text-center p-6 rounded-lg border border-gray-200 hover:shadow-lg transition-shadow">
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg
-                  className="w-8 h-8 text-blue-600"
+                  className="w-8 h-8 text-slate-600"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -163,8 +165,8 @@ export default function Home() {
                   />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Tax Return Preparation</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-semibold text-slate-900 mb-2">Tax Return Preparation</h3>
+              <p className="text-slate-600">
                 Accurate and timely preparation of individual and business tax returns.
               </p>
             </div>
@@ -172,7 +174,7 @@ export default function Home() {
             <div className="text-center p-6 rounded-lg border border-gray-200 hover:shadow-lg transition-shadow">
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg
-                  className="w-8 h-8 text-blue-600"
+                  className="w-8 h-8 text-slate-600"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -185,8 +187,8 @@ export default function Home() {
                   />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Tax Planning</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-semibold text-slate-900 mb-2">Tax Planning</h3>
+              <p className="text-slate-600">
                 Strategic planning to minimize tax liabilities and optimize outcomes.
               </p>
             </div>
@@ -194,7 +196,7 @@ export default function Home() {
             <div className="text-center p-6 rounded-lg border border-gray-200 hover:shadow-lg transition-shadow">
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg
-                  className="w-8 h-8 text-blue-600"
+                  className="w-8 h-8 text-slate-600"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -207,8 +209,8 @@ export default function Home() {
                   />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Small Business Services</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-semibold text-slate-900 mb-2">Small Business Services</h3>
+              <p className="text-slate-600">
                 Specialized accounting services for small businesses and entrepreneurs.
               </p>
             </div>
@@ -222,20 +224,20 @@ export default function Home() {
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
             Ready to Work with a Trusted CPA?
           </h2>
-          <p className="text-xl text-blue-100 mb-8 max-w-3xl mx-auto">
+          <p className="text-xl text-slate-100 mb-8 max-w-3xl mx-auto">
             Let&rsquo;s discuss your tax and accounting needs. Contact us today for a consultation
             and discover how our personalized approach can benefit you.
           </p>
           <div className="space-y-4 sm:space-y-0 sm:space-x-4 sm:flex sm:justify-center">
             <Link
               href="/contact"
-              className="inline-block bg-white text-blue-600 hover:bg-blue-50 font-semibold px-8 py-4 rounded-lg text-lg transition-colors duration-200 shadow-md hover:shadow-lg"
+              className="inline-block bg-white text-slate-600 hover:bg-blue-50 font-semibold px-8 py-4 rounded-lg text-lg transition-colors duration-200 shadow-md hover:shadow-lg"
             >
               Schedule a Consultation
             </Link>
             <Link
               href="/about"
-              className="inline-block border-2 border-white text-white hover:bg-white hover:text-blue-600 font-semibold px-8 py-4 rounded-lg text-lg transition-colors duration-200"
+              className="inline-block border-2 border-white text-white hover:bg-white hover:text-slate-600 font-semibold px-8 py-4 rounded-lg text-lg transition-colors duration-200"
             >
               Learn More About Us
             </Link>

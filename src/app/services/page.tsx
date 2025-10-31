@@ -88,7 +88,7 @@ export default function Services() {
       {/* Hero Section */}
       <div className="bg-gradient-to-br from-blue-50 to-gray-50 py-16">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <h1 className="text-4xl font-bold text-gray-900 mb-6">Professional CPA Services</h1>
+          <h1 className="text-4xl font-bold text-slate-600 mb-6">Professional CPA Services</h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Comprehensive accounting and tax services tailored to meet the unique needs of
             individuals and small businesses.
