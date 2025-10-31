@@ -11,8 +11,7 @@ export default function Footer() {
           <div>
             <h3 className="text-xl font-bold text-white mb-4">Malloy Accounting LLC</h3>
             <p className="text-slate-300 mb-4">
-              Family-owned tax practice servicing individuals and small businesses of the Central
-              Valley.
+              Family-owned tax practice servicing individuals and small businesses
             </p>
             <p className="text-slate-300 text-sm">CPA licensed in California</p>
           </div>
