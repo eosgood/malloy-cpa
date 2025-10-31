@@ -20,6 +20,7 @@ export const metadata: Metadata = {
   title: 'Malloy Accounting LLC - CPA Services in Stockton, CA',
   description:
     'Family-owned tax practice servicing individuals and small businesses of the Central Valley. Expert CPA services including tax preparation, planning, and small business accounting.',
+  // icons handled via <link rel="icon"> in <head>
 };
 
 export default function RootLayout({
@@ -29,7 +30,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head></head>
+      <head>
+        <link rel="icon" href="/favicon.ico" />
+      </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans`}>
         <CsrfBoot />
         <div className="min-h-screen flex flex-col">
