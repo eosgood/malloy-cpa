@@ -111,8 +111,10 @@ export function withProtection(handler: RouteHandler, options: ProtectOptions = 
 
     // CSRF (default: enforce for non-GET)
     const needsCsrf = (opts.csrf ?? true) && method !== 'GET';
-    if (csrfEnabled && needsCsrf && !(await verifyCsrf())) {
-      return tools.forbidden('Forbidden (csrf)');
+    if (csrfEnabled) {
+      if (csrfEnabled && needsCsrf && !(await verifyCsrf())) {
+        return tools.forbidden('Forbidden (csrf)');
+      }
     }
 
     return handler(req, ctx, tools);
