@@ -23,10 +23,15 @@ async function checkSameOrigin(): Promise<boolean> {
   const h = await headers();
   const origin = h.get('origin');
   const host = h.get('host');
+  // Debug: log origin/host for diagnostics (do not log secrets)
+  // This helps detect proxy/origin mismatches in production
+  // (temporary - remove once issue is resolved)
+  console.debug('[protect] checkSameOrigin', { origin, host });
   if (!origin) return false;
   try {
     return new URL(origin).host === host;
-  } catch {
+  } catch (err) {
+    console.debug('[protect] checkSameOrigin parse error', { origin, host, err: String(err) });
     return false;
   }
 }
@@ -37,7 +42,12 @@ async function verifyCsrf(): Promise<boolean> {
   const sig = c.get('csrf_sig')?.value ?? '';
   const headerNonce = (await headers()).get('x-csrf') ?? '';
   if (!nonce || !sig || headerNonce !== nonce) {
-    console.error('debug', !!nonce, !!sig, !!nonce, !!headerNonce, headerNonce, nonce);
+    // Debug: log presence of values (do not log secret values)
+    console.error('[protect] verifyCsrf failed - presence', {
+      hasCookieNonce: !!nonce,
+      hasCookieSig: !!sig,
+      headerNonceValue: headerNonce ? '[present]' : '[missing]',
+    });
     return false;
   }
 
@@ -89,6 +99,11 @@ export function withProtection(handler: RouteHandler, options: ProtectOptions = 
 
     // Same-origin (default: enforce for non-GET)
     if (isSameOriginRequired(method, opts) && !(await checkSameOrigin())) {
+      // Log request headers for debugging origin mismatch
+      const h = await headers();
+      const origin = h.get('origin');
+      const host = h.get('host');
+      console.error('[protect] same-origin failed', { method, origin, host });
       return tools.forbidden('Forbidden (origin)');
     }
 

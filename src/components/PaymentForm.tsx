@@ -66,8 +66,9 @@ export default function PaymentForm({
 
       console.log('csrf token for email', csrf);
       // Fire and forget
-      fetch('/api/email/payment/approval', {
+      void fetch('/api/email/payment/approval', {
         method: 'POST',
+        credentials: 'include',
         headers: { 'Content-Type': 'application/json', 'x-csrf': csrf ?? '' },
         body: JSON.stringify({
           invoiceId: currentInvoiceNumber,
@@ -80,11 +81,17 @@ export default function PaymentForm({
         console.error('Failed to send payment approval email', err);
       });
     }
-    // Only run when status, email, invoice, or amount changes
-  }, [status, currentEmail, currentInvoiceNumber, amount]);
+    // Only run when status, email, invoice, amount, csrf, or response changes
+  }, [status, currentEmail, currentInvoiceNumber, amount, csrf, response]);
 
   // Fetch token and open lightbox
   const handleProcessPayment = useCallback(async () => {
+    // Ensure we have a csrf nonce before sending protected requests
+    if (!csrf) {
+      setError('Security token not ready. Please wait a moment and try again.');
+      return;
+    }
+
     setLoading(true);
     setError('');
     setStatusResponse(['', '']);
@@ -102,6 +109,7 @@ export default function PaymentForm({
       const finalInvoiceNumber = invoiceNumber || manualInvoiceNumber || undefined;
       const res = await fetch('/api/elavon/create-session', {
         method: 'POST',
+        credentials: 'include',
         headers: { 'Content-Type': 'application/json', 'x-csrf': csrf ?? '' },
         body: JSON.stringify({
           amount: numericAmount,
