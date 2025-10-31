@@ -41,14 +41,14 @@ export default function PaymentPage() {
               <div className="space-y-2 text-gray-700">
                 <p>
                   <strong>Phone:</strong>{' '}
-                  <a href="tel:+1234567890" className="text-sky-600 hover:underline">
-                    (123) 456-7890
+                  <a href="tel:+12094251999" className="text-sky-600 hover:underline">
+                    (209) 425-1999
                   </a>
                 </p>
                 <p>
                   <strong>Email:</strong>{' '}
-                  <a href="mailto:payments@malloycpa.com" className="text-sky-600 hover:underline">
-                    payments@malloycpa.com
+                  <a href="mailto:jack@malloycpa.com" className="text-sky-600 hover:underline">
+                    jack@malloycpa.com
                   </a>
                 </p>
                 <p className="text-sm text-gray-600 mt-4">
