@@ -49,10 +49,11 @@ export default function PaymentForm({
   const [error, setError] = useState('');
   const [amount, setAmount] = useState(initialAmount || '');
   const [manualInvoiceNumber, setManualInvoiceNumber] = useState('');
-  const [manualEmail, setManualEmail] = useState('');
+  const [manualEmail, setManualEmail] = useState(initialEmail || '');
 
   // Helper to get the current email value and invoice number (must be after useState)
-  const currentEmail = initialEmail || manualEmail;
+  // We prefill the email input with the `email` prop but keep it editable in state
+  const currentEmail = manualEmail;
   const currentInvoiceNumber = invoiceNumber || manualInvoiceNumber;
 
   const csrf = useCsrf();
@@ -160,17 +161,9 @@ export default function PaymentForm({
       !!amount &&
       parseFloat(amount) > 0 &&
       !!(invoiceNumber || manualInvoiceNumber) &&
-      !!(initialEmail || manualEmail)
+      !!manualEmail
     );
-  }, [
-    loading,
-    convergeLoaded,
-    amount,
-    invoiceNumber,
-    manualInvoiceNumber,
-    initialEmail,
-    manualEmail,
-  ]);
+  }, [loading, convergeLoaded, amount, invoiceNumber, manualInvoiceNumber, manualEmail]);
 
   return (
     <>
@@ -247,21 +240,15 @@ export default function PaymentForm({
             <label htmlFor="emailField" className="block text-sm font-medium text-gray-700 mb-2">
               Email
             </label>
-            {initialEmail ? (
-              <div className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-700">
-                {initialEmail}
-              </div>
-            ) : (
-              <input
-                type="email"
-                id="emailField"
-                value={manualEmail}
-                onChange={(e) => setManualEmail(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
-                placeholder="you@email.com"
-                required
-              />
-            )}
+            <input
+              type="email"
+              id="emailField"
+              value={manualEmail}
+              onChange={(e) => setManualEmail(e.target.value)}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
+              placeholder="you@email.com"
+              required
+            />
           </div>
         </div>
 

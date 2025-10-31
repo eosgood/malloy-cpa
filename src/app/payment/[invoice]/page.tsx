@@ -17,6 +17,11 @@ export default async function InvoicePaymentPage(props: InvoicePaymentPageProps)
   if (searchParams && typeof searchParams.amount === 'string') {
     amount = searchParams.amount;
   }
+  // Get email from query string if present
+  let email: string | undefined = undefined;
+  if (searchParams && typeof searchParams.email === 'string') {
+    email = searchParams.email;
+  }
 
   // Basic validation for invoice parameter
   if (!invoice || invoice.length < 3) {
@@ -85,7 +90,7 @@ export default async function InvoicePaymentPage(props: InvoicePaymentPageProps)
             </div>
           </div>
 
-          <PaymentForm invoiceNumber={invoice} amount={amount} />
+          <PaymentForm invoiceNumber={invoice} amount={amount} email={email} />
         </div>
 
         <div className="mt-8 text-center">
