@@ -2,7 +2,7 @@ export default function Contact() {
   return (
     <div className="bg-white">
       {/* Hero Section */}
-      <div className="bg-gradient-to-br from-blue-50 to-gray-50 py-16">
+      <div className="bg-gradient-to-br from-sky-50 to-gray-50 py-16">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <h1 className="text-4xl font-bold text-slate-600 mb-6">Contact Malloy Accounting LLC</h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -18,7 +18,7 @@ export default function Contact() {
           {/* Address */}
           <div className="flex items-start">
             <svg
-              className="w-6 h-6 text-blue-600 mr-4 mt-1"
+              className="w-6 h-6 text-sky-600 mr-4 mt-1"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -46,7 +46,7 @@ export default function Contact() {
           {/* Phone */}
           <div className="flex items-start">
             <svg
-              className="w-6 h-6 text-blue-600 mr-4 mt-1"
+              className="w-6 h-6 text-sky-600 mr-4 mt-1"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -62,7 +62,7 @@ export default function Contact() {
               <h3 className="font-semibold text-gray-900">Phone</h3>
               <a
                 href="tel:2094251999"
-                className="text-blue-600 hover:text-blue-800 transition-colors"
+                className="text-sky-600 hover:text-sky-800 transition-colors"
               >
                 (209) 425-1999
               </a>
@@ -72,7 +72,7 @@ export default function Contact() {
           {/* Email */}
           <div className="flex items-start">
             <svg
-              className="w-6 h-6 text-blue-600 mr-4 mt-1"
+              className="w-6 h-6 text-sky-600 mr-4 mt-1"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -88,7 +88,7 @@ export default function Contact() {
               <h3 className="font-semibold text-gray-900">Email</h3>
               <a
                 href="mailto:jack@malloycpa.com"
-                className="text-blue-600 hover:text-blue-800 transition-colors"
+                className="text-sky-600 hover:text-sky-800 transition-colors"
               >
                 jack@malloycpa.com
               </a>
@@ -98,7 +98,7 @@ export default function Contact() {
           {/* Fax */}
           <div className="flex items-start">
             <svg
-              className="w-6 h-6 text-blue-600 mr-4 mt-1"
+              className="w-6 h-6 text-sky-600 mr-4 mt-1"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"

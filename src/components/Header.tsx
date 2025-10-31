@@ -31,7 +31,7 @@ export default function Header() {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="text-slate-700 hover:text-blue-800 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+                  className="text-slate-700 hover:text-sky-800 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
                 >
                   {item.name}
                 </Link>
@@ -43,7 +43,7 @@ export default function Header() {
           <div className="md:hidden">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-slate-700 hover:text-blue-800 focus:outline-none focus:text-blue-800"
+              className="text-slate-700 hover:text-sky-800 focus:outline-none focus:text-sky-800"
             >
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 {isMenuOpen ? (
@@ -74,7 +74,7 @@ export default function Header() {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="text-slate-700 hover:text-blue-800 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200"
+                  className="text-slate-700 hover:text-sky-800 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {item.name}

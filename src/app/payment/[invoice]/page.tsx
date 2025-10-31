@@ -33,8 +33,8 @@ export default async function InvoicePaymentPage(props: InvoicePaymentPageProps)
       <div className="max-w-4xl mx-auto py-16 px-6">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">Pay Invoice</h1>
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 inline-block">
-            <p className="text-xl text-blue-800">
+          <div className="bg-sky-50 border border-sky-200 rounded-lg p-4 inline-block">
+            <p className="text-xl text-sky-800">
               <strong>Invoice #:</strong> {invoice}
             </p>
           </div>
@@ -65,20 +65,20 @@ export default async function InvoicePaymentPage(props: InvoicePaymentPageProps)
               </div>
             </div>
 
-            <div className="bg-blue-50 p-6 rounded-lg">
+            <div className="bg-sky-50 p-6 rounded-lg">
               <h3 className="text-xl font-semibold text-gray-900 mb-3">
                 Questions About This Invoice?
               </h3>
               <div className="space-y-2 text-gray-700">
                 <p>
                   <strong>Phone:</strong>{' '}
-                  <a href="tel:+2094251999" className="text-blue-600 hover:underline">
+                  <a href="tel:+2094251999" className="text-sky-600 hover:underline">
                     (209) 425-1999
                   </a>
                 </p>
                 <p>
                   <strong>Email:</strong>{' '}
-                  <a href="mailto:jack@malloycpa.com" className="text-blue-600 hover:underline">
+                  <a href="mailto:jack@malloycpa.com" className="text-sky-600 hover:underline">
                     jack@malloycpa.com
                   </a>
                 </p>

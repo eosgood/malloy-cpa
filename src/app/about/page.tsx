@@ -2,7 +2,7 @@ export default function About() {
   return (
     <div className="bg-white">
       {/* Hero Section */}
-      <div className="bg-gradient-to-br from-blue-50 to-gray-50 py-16">
+      <div className="bg-gradient-to-br from-sky-50 to-gray-50 py-16">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <h1 className="text-4xl font-bold text-slate-600 mb-6">About Malloy Accounting LLC</h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -29,7 +29,7 @@ export default function About() {
             <div className="space-y-3">
               <div className="flex items-center">
                 <svg
-                  className="w-5 h-5 text-blue-600 mr-3"
+                  className="w-5 h-5 text-sky-600 mr-3"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -45,7 +45,7 @@ export default function About() {
               </div>
               <div className="flex items-center">
                 <svg
-                  className="w-5 h-5 text-blue-600 mr-3"
+                  className="w-5 h-5 text-sky-600 mr-3"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -61,7 +61,7 @@ export default function About() {
               </div>
               <div className="flex items-center">
                 <svg
-                  className="w-5 h-5 text-blue-600 mr-3"
+                  className="w-5 h-5 text-sky-600 mr-3"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -77,7 +77,7 @@ export default function About() {
               </div>
               <div className="flex items-center">
                 <svg
-                  className="w-5 h-5 text-blue-600 mr-3"
+                  className="w-5 h-5 text-sky-600 mr-3"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -105,7 +105,7 @@ export default function About() {
           </div>
         </div>
 
-        <div className="mt-16 bg-blue-50 p-8 rounded-lg">
+        <div className="mt-16 bg-sky-50 p-8 rounded-lg">
           <h3 className="text-2xl font-semibold text-gray-900 mb-4 text-center">
             Why Choose Malloy Accounting?
           </h3>

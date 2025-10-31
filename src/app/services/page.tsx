@@ -4,7 +4,7 @@ export default function Services() {
       title: 'Tax Return Preparation',
       icon: (
         <svg
-          className="w-12 h-12 text-blue-600"
+          className="w-12 h-12 text-slate-200"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -31,7 +31,7 @@ export default function Services() {
       title: 'Tax Planning',
       icon: (
         <svg
-          className="w-12 h-12 text-blue-600"
+          className="w-12 h-12 text-slate-200"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -58,7 +58,7 @@ export default function Services() {
       title: 'Small Business Services',
       icon: (
         <svg
-          className="w-12 h-12 text-blue-600"
+          className="w-12 h-12 text-slate-200"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -86,7 +86,7 @@ export default function Services() {
   return (
     <div className="bg-white">
       {/* Hero Section */}
-      <div className="bg-gradient-to-br from-blue-50 to-gray-50 py-16">
+      <div className="bg-gradient-to-br from-sky-50 to-gray-50 py-16">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <h1 className="text-4xl font-bold text-slate-600 mb-6">Professional CPA Services</h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -111,7 +111,7 @@ export default function Services() {
                   <div className="flex justify-start">
                     <a
                       href="/contact"
-                      className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors duration-200"
+                      className="bg-sky-600 hover:bg-sky-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors duration-200"
                     >
                       Learn More
                     </a>
@@ -149,23 +149,23 @@ export default function Services() {
       </div>
 
       {/* CTA Section */}
-      <div className="bg-blue-600 py-16">
+      <div className="bg-sky-600 py-16">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <h2 className="text-3xl font-bold text-white mb-6">Ready to Get Started?</h2>
-          <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+          <p className="text-xl text-slate-100 mb-8 max-w-2xl mx-auto">
             Contact Malloy Accounting LLC today to discuss your tax and accounting needs.
             We&rsquo;re here to help you achieve your financial goals.
           </p>
           <div className="space-y-4 sm:space-y-0 sm:space-x-4 sm:flex sm:justify-center">
             <a
               href="/contact"
-              className="inline-block bg-white text-blue-600 hover:bg-gray-100 font-semibold px-8 py-4 rounded-lg text-lg transition-colors duration-200"
+              className="inline-block bg-white text-slate-600 hover:bg-gray-100 font-semibold px-8 py-4 rounded-lg text-lg transition-colors duration-200"
             >
               Contact Us Today
             </a>
             <a
               href="tel:2094251999"
-              className="inline-block border-2 border-white text-white hover:bg-white hover:text-blue-600 font-semibold px-8 py-4 rounded-lg text-lg transition-colors duration-200"
+              className="inline-block border-2 border-white text-white hover:bg-white hover:text-slate-600 font-semibold px-8 py-4 rounded-lg text-lg transition-colors duration-200"
             >
               Call (209) 425-1999
             </a>

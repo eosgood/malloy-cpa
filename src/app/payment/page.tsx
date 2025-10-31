@@ -36,18 +36,18 @@ export default function PaymentPage() {
               </div>
             </div>
 
-            <div className="bg-blue-50 p-6 rounded-lg">
+            <div className="bg-sky-50 p-6 rounded-lg">
               <h3 className="text-xl font-semibold text-gray-900 mb-3">Need Help?</h3>
               <div className="space-y-2 text-gray-700">
                 <p>
                   <strong>Phone:</strong>{' '}
-                  <a href="tel:+1234567890" className="text-blue-600 hover:underline">
+                  <a href="tel:+1234567890" className="text-sky-600 hover:underline">
                     (123) 456-7890
                   </a>
                 </p>
                 <p>
                   <strong>Email:</strong>{' '}
-                  <a href="mailto:payments@malloycpa.com" className="text-blue-600 hover:underline">
+                  <a href="mailto:payments@malloycpa.com" className="text-sky-600 hover:underline">
                     payments@malloycpa.com
                   </a>
                 </p>

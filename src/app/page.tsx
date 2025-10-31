@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <div className="bg-gray-50">
       {/* Hero Section */}
-      <section className="py-20 bg-gradient-to-br from-blue-50 to-gray-50">
+      <section className="py-20 bg-gradient-to-br from-sky-50 to-gray-50">
         <div className="max-w-6xl mx-auto px-6">
           <div className="flex flex-col lg:flex-row items-center lg:items-center gap-4">
             {/* Logo */}
@@ -30,13 +30,13 @@ export default function Home() {
               <div className="space-y-4 sm:space-y-0 sm:space-x-4 sm:flex lg:justify-start justify-center">
                 <Link
                   href="/contact"
-                  className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-4 rounded-lg text-lg transition-colors duration-200 shadow-md hover:shadow-lg"
+                  className="inline-block bg-sky-600 hover:bg-sky-700 text-white font-semibold px-8 py-4 rounded-lg text-lg transition-colors duration-200 shadow-md hover:shadow-lg"
                 >
                   Get Started Today
                 </Link>
                 <Link
                   href="/services"
-                  className="inline-block border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white font-semibold px-8 py-4 rounded-lg text-lg transition-colors duration-200"
+                  className="inline-block border-2 border-sky-600 text-sky-600 hover:bg-sky-600 hover:text-white font-semibold px-8 py-4 rounded-lg text-lg transition-colors duration-200"
                 >
                   View Services
                 </Link>
@@ -61,7 +61,7 @@ export default function Home() {
 
           <div className="grid md:grid-cols-3 gap-8 mb-16">
             <div className="text-center p-6">
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-sky-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg
                   className="w-8 h-8 text-slate-600"
                   fill="none"
@@ -84,7 +84,7 @@ export default function Home() {
             </div>
 
             <div className="text-center p-6">
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-sky-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg
                   className="w-8 h-8 text-slate-600"
                   fill="none"
@@ -107,7 +107,7 @@ export default function Home() {
             </div>
 
             <div className="text-center p-6">
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-sky-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg
                   className="w-8 h-8 text-slate-600"
                   fill="none"
@@ -150,7 +150,7 @@ export default function Home() {
 
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center p-6 rounded-lg border border-gray-200 hover:shadow-lg transition-shadow">
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-sky-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg
                   className="w-8 h-8 text-slate-600"
                   fill="none"
@@ -172,7 +172,7 @@ export default function Home() {
             </div>
 
             <div className="text-center p-6 rounded-lg border border-gray-200 hover:shadow-lg transition-shadow">
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-sky-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg
                   className="w-8 h-8 text-slate-600"
                   fill="none"
@@ -194,7 +194,7 @@ export default function Home() {
             </div>
 
             <div className="text-center p-6 rounded-lg border border-gray-200 hover:shadow-lg transition-shadow">
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-sky-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg
                   className="w-8 h-8 text-slate-600"
                   fill="none"
@@ -219,7 +219,7 @@ export default function Home() {
       </section>
 
       {/* Call to Action */}
-      <section className="py-20 bg-blue-600">
+      <section className="py-20 bg-sky-600">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
             Ready to Work with a Trusted CPA?
@@ -231,7 +231,7 @@ export default function Home() {
           <div className="space-y-4 sm:space-y-0 sm:space-x-4 sm:flex sm:justify-center">
             <Link
               href="/contact"
-              className="inline-block bg-white text-slate-600 hover:bg-blue-50 font-semibold px-8 py-4 rounded-lg text-lg transition-colors duration-200 shadow-md hover:shadow-lg"
+              className="inline-block bg-white text-slate-600 hover:bg-sky-50 font-semibold px-8 py-4 rounded-lg text-lg transition-colors duration-200 shadow-md hover:shadow-lg"
             >
               Contact Us
             </Link>

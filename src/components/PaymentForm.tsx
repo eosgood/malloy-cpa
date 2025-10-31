@@ -203,7 +203,7 @@ export default function PaymentForm({
                 min="0.01"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
-                className="w-full pl-8 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
+                className="w-full pl-8 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-gray-900"
                 placeholder="0.00"
                 required
               />
@@ -228,7 +228,7 @@ export default function PaymentForm({
                 id="invoiceNumberField"
                 value={manualInvoiceNumber}
                 onChange={(e) => setManualInvoiceNumber(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-gray-900"
                 placeholder="INV-2024-001"
                 required
               />
@@ -245,7 +245,7 @@ export default function PaymentForm({
               id="emailField"
               value={manualEmail}
               onChange={(e) => setManualEmail(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-gray-900"
               placeholder="you@email.com"
               required
             />
@@ -275,7 +275,7 @@ export default function PaymentForm({
             onClick={() => {
               void handleProcessPayment();
             }}
-            className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-semibold py-4 px-6 rounded-lg text-lg transition-colors duration-200 shadow-md hover:shadow-lg cursor-pointer disabled:cursor-not-allowed"
+            className="w-full bg-sky-600 hover:bg-sky-700 disabled:bg-sky-400 text-white font-semibold py-4 px-6 rounded-lg text-lg transition-colors duration-200 shadow-md hover:shadow-lg cursor-pointer disabled:cursor-not-allowed"
             title={!convergeLoaded ? 'Loading payment SDK…' : undefined}
           >
             {loading ? (
