@@ -72,14 +72,14 @@ export default async function InvoicePaymentPage(props: InvoicePaymentPageProps)
               <div className="space-y-2 text-gray-700">
                 <p>
                   <strong>Phone:</strong>{' '}
-                  <a href="tel:+1234567890" className="text-blue-600 hover:underline">
-                    (123) 456-7890
+                  <a href="tel:+2094251999" className="text-blue-600 hover:underline">
+                    (209) 425-1999
                   </a>
                 </p>
                 <p>
                   <strong>Email:</strong>{' '}
-                  <a href="mailto:billing@malloycpa.com" className="text-blue-600 hover:underline">
-                    billing@malloycpa.com
+                  <a href="mailto:jack@malloycpa.com" className="text-blue-600 hover:underline">
+                    jack@malloycpa.com
                   </a>
                 </p>
                 <p className="text-sm text-gray-600 mt-4">
