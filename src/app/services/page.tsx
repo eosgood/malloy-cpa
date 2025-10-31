@@ -91,7 +91,7 @@ export default function Services() {
           <h1 className="text-4xl font-bold text-gray-900 mb-6">Professional CPA Services</h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Comprehensive accounting and tax services tailored to meet the unique needs of
-            individuals and small businesses in the Central Valley.
+            individuals and small businesses.
           </p>
         </div>
       </div>

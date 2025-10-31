@@ -1,15 +1,18 @@
 export default function About() {
   return (
     <div className="bg-white">
-      <div className="max-w-4xl mx-auto py-16 px-6">
-        <div className="text-center mb-12">
+      {/* Hero Section */}
+      <div className="bg-gradient-to-br from-blue-50 to-gray-50 py-16">
+        <div className="max-w-4xl mx-auto px-6 text-center">
           <h1 className="text-4xl font-bold text-gray-900 mb-6">About Malloy Accounting LLC</h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Family-owned tax practice with a commitment to personalized service and professional
             excellence.
           </p>
         </div>
+      </div>
 
+      <div className="max-w-6xl mx-auto py-16 px-6">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div>
             <h2 className="text-2xl font-semibold text-gray-900 mb-4">Meet Jack Malloy, CPA</h2>
@@ -20,7 +23,7 @@ export default function About() {
             </p>
             <p className="text-gray-700 mb-6">
               Our family-owned practice is dedicated to serving individuals and small businesses
-              throughout the Central Valley with personalized attention and professional expertise.
+              with personalized attention and professional expertise.
             </p>
 
             <div className="space-y-3">
@@ -116,7 +119,7 @@ export default function About() {
             <div className="text-center">
               <h4 className="font-semibold text-gray-900 mb-2">Local Expertise</h4>
               <p className="text-gray-700 text-sm">
-                Deep understanding of Central Valley business environment and tax regulations.
+                Deep understanding business environments and tax regulations.
               </p>
             </div>
             <div className="text-center">

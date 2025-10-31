@@ -37,7 +37,7 @@ export default function RootLayout({
         <CsrfBoot />
         <div className="min-h-screen flex flex-col">
           <Header />
-          <main className="flex-grow">{children}</main>
+          <main className="flex-grow bg-white">{children}</main>
           <Footer />
           <Analytics />
         </div>

@@ -24,8 +24,8 @@ export default function Home() {
                 Expert CPA Services
               </h1>
               <p className="text-xl md:text-2xl text-gray-700 mb-4 leading-relaxed">
-                Family-owned tax practice servicing individuals and small businesses of the Central
-                Valley. Professional accounting you can trust.
+                Family-owned tax practice servicing individuals and small businesses. Professional
+                accounting you can trust.
               </p>
               <div className="space-y-4 sm:space-y-0 sm:space-x-4 sm:flex lg:justify-start justify-center">
                 <Link
@@ -53,7 +53,7 @@ export default function Home() {
             <h2 className="text-3xl font-bold text-gray-900 mb-4">Why Choose Malloy Accounting?</h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
               We combine professional expertise with personalized service to deliver exceptional
-              results for our clients throughout the Central Valley.
+              results for our clients.
             </p>
           </div>
 
@@ -128,8 +128,8 @@ export default function Home() {
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-3">Local Expertise</h3>
               <p className="text-gray-600">
-                Deep understanding of Central Valley business environment, local regulations, and
-                tax considerations specific to our region.
+                Deep understanding of local business environments, applicable regulations, and tax
+                and accounting considerations to support clients across regions.
               </p>
             </div>
           </div>
