@@ -51,39 +51,18 @@ export default function PaymentForm({
   const [manualInvoiceNumber, setManualInvoiceNumber] = useState('');
   const [manualEmail, setManualEmail] = useState(initialEmail || '');
 
-  // Helper to get the current email value and invoice number (must be after useState)
   // We prefill the email input with the `email` prop but keep it editable in state
-  const currentEmail = manualEmail;
-  const currentInvoiceNumber = invoiceNumber || manualInvoiceNumber;
 
   const csrf = useCsrf();
 
-  // Side effect: send email when payment is approved
+  // We previously sent a notification email when payment moved to 'approval'.
+  // That logic has been removed so the UI itself shows confirmation based on the
+  // `status` set by the Converge lightbox callbacks. Keep this effect area free
+  // for future analytics hooks if needed.
   useEffect(() => {
-    if (status === 'approval' && currentEmail && currentInvoiceNumber && amount) {
-      // Only send email if all required fields are present
-      const numericAmount = parseFloat(amount);
-      if (!Number.isFinite(numericAmount) || numericAmount <= 0) return;
-
-      console.log('csrf token for email', csrf);
-      // Fire and forget
-      void fetch('/api/email/payment/approval', {
-        method: 'POST',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json', 'x-csrf': csrf ?? '' },
-        body: JSON.stringify({
-          invoiceId: currentInvoiceNumber,
-          amount: numericAmount,
-          email: currentEmail,
-          responseJson: response,
-        }),
-      }).catch((err) => {
-        // Optionally log error, but don't block UI
-        console.error('Failed to send payment approval email', err);
-      });
-    }
-    // Only run when status, email, invoice, amount, csrf, or response changes
-  }, [status, currentEmail, currentInvoiceNumber, amount, csrf, response]);
+    // no-op for now; intentionally left to allow easy insertion of analytics/metrics
+    // console.debug('payment status changed', { status, response });
+  }, [status, response]);
 
   // Fetch token and open lightbox
   const handleProcessPayment = useCallback(async () => {
@@ -264,6 +243,42 @@ export default function PaymentForm({
         {error && (
           <div className="bg-red-50 border border-red-200 rounded-lg p-4">
             <p className="text-red-700">{error}</p>
+          </div>
+        )}
+
+        {/* Payment result / status UI (driven by Converge callbacks) */}
+        {status && (
+          <div className="mt-4">
+            {status === 'approval' && (
+              <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                <h4 className="text-green-800 font-semibold mb-2">Payment Approved</h4>
+                <p className="text-green-700 mb-2">Thank you — your payment was approved.</p>
+              </div>
+            )}
+
+            {status === 'declined' && (
+              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                <h4 className="text-yellow-800 font-semibold mb-2">Payment Declined</h4>
+                <p className="text-yellow-700 mb-2">The payment was declined by the issuer.</p>
+                <p className="text-sm text-gray-600">
+                  You can try again or contact your card issuer.
+                </p>
+              </div>
+            )}
+
+            {status === 'cancelled' && (
+              <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                <h4 className="text-gray-900 font-semibold mb-2">Payment Cancelled</h4>
+                <p className="text-gray-700">You cancelled the payment process.</p>
+              </div>
+            )}
+
+            {status === 'error' && (
+              <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                <h4 className="text-red-800 font-semibold mb-2">Payment Error</h4>
+                <p className="text-red-700">{response || 'An unexpected error occurred.'}</p>
+              </div>
+            )}
           </div>
         )}
 
