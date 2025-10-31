@@ -233,7 +233,7 @@ export default function Home() {
               href="/contact"
               className="inline-block bg-white text-slate-600 hover:bg-blue-50 font-semibold px-8 py-4 rounded-lg text-lg transition-colors duration-200 shadow-md hover:shadow-lg"
             >
-              Schedule a Consultation
+              Contact Us
             </Link>
             <Link
               href="/about"
