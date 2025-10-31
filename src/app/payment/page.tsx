@@ -7,8 +7,7 @@ export default function PaymentPage() {
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">Make a Payment</h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Securely pay for services, consultations, and retainer fees using our online payment
-            system.
+            Securely pay your invoice online using our trusted payment processing system.
           </p>
         </div>
 

@@ -107,9 +107,11 @@ export function withProtection(handler: RouteHandler, options: ProtectOptions = 
       return tools.forbidden('Forbidden (origin)');
     }
 
+    const csrfEnabled = Boolean(process.env.CSRF_ENABLED ?? false);
+
     // CSRF (default: enforce for non-GET)
     const needsCsrf = (opts.csrf ?? true) && method !== 'GET';
-    if (needsCsrf && !(await verifyCsrf())) {
+    if (csrfEnabled && needsCsrf && !(await verifyCsrf())) {
       return tools.forbidden('Forbidden (csrf)');
     }
 
