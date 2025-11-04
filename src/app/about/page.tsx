@@ -1,16 +1,12 @@
+import Hero from '@/components/Hero';
+
 export default function About() {
   return (
     <div className="bg-white">
-      {/* Hero Section */}
-      <div className="bg-gradient-to-br from-sky-100 to-slate-50 py-16">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <h1 className="text-4xl font-bold text-slate-800 mb-6">About Malloy Accounting LLC</h1>
-          <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-            Family-owned tax practice with a commitment to personalized service and professional
-            excellence.
-          </p>
-        </div>
-      </div>
+      <Hero
+        title="About Malloy Accounting LLC"
+        subtitle="Family-owned tax practice with a commitment to personalized service and professional excellence."
+      />
 
       <div className="max-w-6xl mx-auto py-16 px-6">
         <div className="grid md:grid-cols-2 gap-12 items-center">

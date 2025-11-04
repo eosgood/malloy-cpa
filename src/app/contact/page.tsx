@@ -1,19 +1,15 @@
+import Hero from '@/components/Hero';
+
 export default function Contact() {
   return (
     <div className="bg-white">
-      {/* Hero Section */}
-      <div className="bg-gradient-to-br from-sky-50 to-gray-50 py-16">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <h1 className="text-4xl font-bold text-slate-600 mb-6">Contact Malloy Accounting LLC</h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Get in touch with our professional CPA team. We&rsquo;re here to help with all your tax
-            and accounting needs.
-          </p>
-        </div>
-      </div>
+      <Hero
+        title="Contact Malloy Accounting LLC"
+        subtitle="Get in touch with our professional CPA team. We're here to help with all your tax and accounting needs."
+      />
 
       <div className="max-w-6xl mx-auto py-16 px-6">
-        <h2 className="text-2xl font-bold text-gray-900 mb-8">Get In Touch</h2>
+        <h2 className="text-2xl font-bold text-slate-900 mb-8">Get In Touch</h2>
         <div className="grid md:grid-cols-2 gap-4">
           {/* Address */}
           <div className="flex items-start">
@@ -37,9 +33,9 @@ export default function Contact() {
               />
             </svg>
             <div>
-              <h3 className="font-semibold text-gray-900">Office Address</h3>
-              <p className="text-gray-600">5345 N. El Dorado St, Suite 4</p>
-              <p className="text-gray-600">Stockton, CA 95207</p>
+              <h3 className="font-semibold text-slate-900">Office Address</h3>
+              <p className="text-slate-700">5345 N. El Dorado St, Suite 4</p>
+              <p className="text-slate-700">Stockton, CA 95207</p>
             </div>
           </div>
 
@@ -59,7 +55,7 @@ export default function Contact() {
               />
             </svg>
             <div>
-              <h3 className="font-semibold text-gray-900">Phone</h3>
+              <h3 className="font-semibold text-slate-900">Phone</h3>
               <a
                 href="tel:2094251999"
                 className="text-sky-600 hover:text-sky-800 transition-colors"
@@ -85,7 +81,7 @@ export default function Contact() {
               />
             </svg>
             <div>
-              <h3 className="font-semibold text-gray-900">Email</h3>
+              <h3 className="font-semibold text-slate-900">Email</h3>
               <a
                 href="mailto:jack@malloycpa.com"
                 className="text-sky-600 hover:text-sky-800 transition-colors"
@@ -111,16 +107,16 @@ export default function Contact() {
               />
             </svg>
             <div>
-              <h3 className="font-semibold text-gray-900">Fax</h3>
-              <p className="text-gray-600">(209) 337-3323</p>
+              <h3 className="font-semibold text-slate-900">Fax</h3>
+              <p className="text-slate-700">(209) 337-3323</p>
             </div>
           </div>
         </div>
 
         {/* Business Hours */}
-        <div className="mt-12 p-6 bg-gray-50 rounded-lg">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Business Hours</h3>
-          <div className="space-y-2 text-gray-600">
+        <div className="mt-12 p-6 bg-sky-50 rounded-lg border border-sky-200">
+          <h3 className="text-lg font-semibold text-slate-900 mb-4">Business Hours</h3>
+          <div className="space-y-2 text-slate-700">
             <div className="flex justify-between">
               <span>Monday - Friday</span>
               <span>9:00 AM - 5:00 PM</span>
