@@ -41,12 +41,20 @@ async function verifyCsrf(): Promise<boolean> {
   const nonce = c.get('csrf_nonce')?.value ?? '';
   const sig = c.get('csrf_sig')?.value ?? '';
   const headerNonce = (await headers()).get('x-csrf') ?? '';
+
+  console.log('[protect] verifyCsrf - values', {
+    cookieNoncePreview: nonce ? `${nonce.substring(0, 8)}...` : '[missing]',
+    cookieSigPreview: sig ? `${sig.substring(0, 8)}...` : '[missing]',
+    headerNoncePreview: headerNonce ? `${headerNonce.substring(0, 8)}...` : '[missing]',
+    nonceMatch: headerNonce === nonce,
+  });
+
   if (!nonce || !sig || headerNonce !== nonce) {
-    // Debug: log presence of values (do not log secret values)
     console.error('[protect] verifyCsrf failed - presence', {
       hasCookieNonce: !!nonce,
       hasCookieSig: !!sig,
       headerNonceValue: headerNonce ? '[present]' : '[missing]',
+      nonceMatch: headerNonce === nonce,
     });
     return false;
   }
@@ -56,9 +64,15 @@ async function verifyCsrf(): Promise<boolean> {
 
   const expected = crypto.createHmac('sha256', secret).update(nonce).digest('hex');
   try {
-    return crypto.timingSafeEqual(Buffer.from(expected), Buffer.from(sig));
-  } catch {
-    console.error('CSRF timingSafeEqual failed');
+    const isValid = crypto.timingSafeEqual(Buffer.from(expected), Buffer.from(sig));
+    if (!isValid) {
+      console.error('[protect] CSRF signature mismatch');
+    }
+    return isValid;
+  } catch (err) {
+    console.error('[protect] CSRF timingSafeEqual failed', {
+      error: err instanceof Error ? err.message : String(err),
+    });
     return false;
   }
 }

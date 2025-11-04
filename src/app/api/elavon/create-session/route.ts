@@ -79,33 +79,6 @@ export const POST = withProtection(async (req /* Request */, _ctx, { badRequest 
     const apiKey = process.env.VERCEL_API_KEY;
     const protectionBypass = process.env.VERCEL_PROTECTION_BYPASS;
 
-    // Parse request body for payment details
-    let amount: number;
-    let invoiceNumber: string;
-    try {
-      console.log('Parsing request body:', raw);
-      const parsed = Body.safeParse(raw);
-      if (!parsed.success) {
-        return badRequest('Invalid body');
-      }
-      amount = parsed.data.amount;
-      invoiceNumber = parsed.data.invoiceNumber;
-      console.log('Payment request received:', {
-        amount: amount,
-        invoiceNumber: invoiceNumber,
-      });
-    } catch (error) {
-      console.error('Failed to parse request body:', error);
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'Invalid request format',
-          errorCode: 'PARSE_ERROR',
-        },
-        { status: 400 }
-      );
-    }
-
     // Check if environment variables exist
     if (!accountId || !userId || !pin || !apiKey || !protectionBypass || !VERCEL_PROXY_URL) {
       const missingSecrets = [];
@@ -141,6 +114,17 @@ export const POST = withProtection(async (req /* Request */, _ctx, { badRequest 
         { status: 500 }
       );
     }
+
+    // Parse request body for payment details
+    const parsed = await Body.safeParseAsync(raw);
+    if (!parsed.success) {
+      return badRequest('Invalid body');
+    }
+    const { amount, invoiceNumber } = parsed.data;
+    console.log('Payment request received:', {
+      amount: amount,
+      invoiceNumber: invoiceNumber,
+    });
 
     // Prepare request data for Converge token request with payment details
     const formDataEntries: Record<string, string> = {

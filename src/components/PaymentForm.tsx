@@ -2,7 +2,7 @@
 
 import Script from 'next/script';
 
-import { useCallback, useState, useMemo, useEffect } from 'react';
+import { useCallback, useState, useMemo } from 'react';
 import { getConvergeApiBaseUrl } from '@/config/converge';
 import { useCsrf } from '@/hooks/useCsrf';
 
@@ -33,12 +33,14 @@ interface PaymentFormProps {
   invoiceNumber?: string;
   amount?: string;
   email?: string;
+  csrf: string; // Now guaranteed to be present
 }
 
-export default function PaymentForm({
+export function PaymentFormContent({
   invoiceNumber,
   amount: initialAmount,
   email: initialEmail,
+  csrf,
 }: PaymentFormProps) {
   const [jqLoaded, setJqLoaded] = useState(false);
   const [convergeLoaded, setConvergeLoaded] = useState(false);
@@ -53,25 +55,8 @@ export default function PaymentForm({
 
   // We prefill the email input with the `email` prop but keep it editable in state
 
-  const csrf = useCsrf();
-
-  // We previously sent a notification email when payment moved to 'approval'.
-  // That logic has been removed so the UI itself shows confirmation based on the
-  // `status` set by the Converge lightbox callbacks. Keep this effect area free
-  // for future analytics hooks if needed.
-  useEffect(() => {
-    // no-op for now; intentionally left to allow easy insertion of analytics/metrics
-    // console.debug('payment status changed', { status, response });
-  }, [status, response]);
-
   // Fetch token and open lightbox
   const handleProcessPayment = useCallback(async () => {
-    // Ensure we have a csrf nonce before sending protected requests
-    if (!csrf) {
-      setError('Security token not ready. Please wait a moment and try again.');
-      return;
-    }
-
     setLoading(true);
     setError('');
     setStatusResponse(['', '']);
@@ -90,7 +75,7 @@ export default function PaymentForm({
       const res = await fetch('/api/elavon/create-session', {
         method: 'POST',
         credentials: 'include',
-        headers: { 'Content-Type': 'application/json', 'x-csrf': csrf ?? '' },
+        headers: { 'Content-Type': 'application/json', 'x-csrf': csrf },
         body: JSON.stringify({
           amount: numericAmount,
           invoiceNumber: finalInvoiceNumber,
@@ -131,7 +116,7 @@ export default function PaymentForm({
     } finally {
       setLoading(false);
     }
-  }, [amount, invoiceNumber, manualInvoiceNumber]);
+  }, [amount, invoiceNumber, manualInvoiceNumber, csrf]);
 
   const isContinueButtonEnabled = useMemo(() => {
     return (
@@ -143,6 +128,39 @@ export default function PaymentForm({
       !!manualEmail
     );
   }, [loading, convergeLoaded, amount, invoiceNumber, manualInvoiceNumber, manualEmail]);
+
+  // Show loading placeholder until CSRF token is ready
+  if (!csrf) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-center py-12">
+          <div className="text-center">
+            <svg
+              className="animate-spin h-12 w-12 text-sky-600 mx-auto mb-4"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+              ></circle>
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
+            </svg>
+            <p className="text-gray-600">Loading secure payment form...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -327,5 +345,48 @@ export default function PaymentForm({
         <p>🔒 Your payment information is encrypted and secure</p>
       </div>
     </>
+  );
+}
+
+// Wrapper component that handles CSRF token fetching
+interface PaymentFormWrapperProps {
+  invoiceNumber?: string;
+  amount?: string;
+  email?: string;
+}
+
+export default function PaymentForm({ invoiceNumber, amount, email }: PaymentFormWrapperProps) {
+  const csrf = useCsrf();
+
+  // Show loading placeholder until CSRF token is available
+  if (!csrf) {
+    return (
+      <div className="space-y-6">
+        <div className="grid md:grid-cols-2 gap-6">
+          {/* Skeleton loader for payment form */}
+          <div className="space-y-3">
+            <div className="h-4 bg-gray-200 rounded w-24 animate-pulse"></div>
+            <div className="h-10 bg-gray-100 rounded animate-pulse"></div>
+          </div>
+          <div className="space-y-3">
+            <div className="h-4 bg-gray-200 rounded w-32 animate-pulse"></div>
+            <div className="h-10 bg-gray-100 rounded animate-pulse"></div>
+          </div>
+          <div className="space-y-3">
+            <div className="h-4 bg-gray-200 rounded w-16 animate-pulse"></div>
+            <div className="h-10 bg-gray-100 rounded animate-pulse"></div>
+          </div>
+        </div>
+        <div className="h-12 bg-gray-200 rounded animate-pulse"></div>
+        <div className="text-center text-sm text-gray-500">
+          <p>Loading payment form...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Render the actual form once CSRF is available
+  return (
+    <PaymentFormContent invoiceNumber={invoiceNumber} amount={amount} email={email} csrf={csrf} />
   );
 }
