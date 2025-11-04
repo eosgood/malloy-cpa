@@ -2,9 +2,9 @@ import Link from 'next/link';
 
 export default function Home() {
   return (
-    <div className="bg-gray-50">
+    <div className="bg-sky-50">
       {/* Hero Section */}
-      <section className="py-20 bg-gradient-to-br from-sky-50 to-gray-50">
+      <section className="py-20 bg-gradient-to-br from-sky-100 to-slate-50">
         <div className="max-w-6xl mx-auto px-6">
           <div className="flex flex-col lg:flex-row items-center lg:items-center gap-4">
             {/* Logo */}
@@ -20,10 +20,10 @@ export default function Home() {
 
             {/* Text Content */}
             <div className="flex-1 text-center lg:text-left">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-600 mb-2 leading-tight">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-800 mb-2 leading-tight">
                 Expert CPA Services
               </h1>
-              <p className="text-xl md:text-2xl text-gray-700 mb-4 leading-relaxed">
+              <p className="text-xl md:text-2xl text-slate-600 mb-4 leading-relaxed">
                 Family-owned tax practice servicing individuals and small businesses. Professional
                 accounting you can trust.
               </p>
@@ -53,7 +53,7 @@ export default function Home() {
             <h2 className="text-3xl font-bold text-slate-900 mb-4">
               Why Choose Malloy Accounting?
             </h2>
-            <p className="text-lg text-slate-600 max-w-3xl mx-auto">
+            <p className="text-lg text-slate-700 max-w-3xl mx-auto">
               We combine professional expertise with personalized service to deliver exceptional
               results for our clients.
             </p>
@@ -63,7 +63,7 @@ export default function Home() {
             <div className="text-center p-6">
               <div className="w-16 h-16 bg-sky-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg
-                  className="w-8 h-8 text-slate-600"
+                  className="w-8 h-8 text-sky-700"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -77,7 +77,7 @@ export default function Home() {
                 </svg>
               </div>
               <h3 className="text-xl font-semibold text-slate-900 mb-3">Personal Service</h3>
-              <p className="text-slate-600">
+              <p className="text-slate-700">
                 Direct access to your CPA with personalized attention and customized solutions for
                 your unique financial situation.
               </p>
@@ -86,7 +86,7 @@ export default function Home() {
             <div className="text-center p-6">
               <div className="w-16 h-16 bg-sky-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg
-                  className="w-8 h-8 text-slate-600"
+                  className="w-8 h-8 text-sky-700"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -100,7 +100,7 @@ export default function Home() {
                 </svg>
               </div>
               <h3 className="text-xl font-semibold text-slate-900 mb-3">Proven Experience</h3>
-              <p className="text-slate-600">
+              <p className="text-slate-700">
                 Over a decade of public accounting experience with deep expertise in tax
                 preparation, planning, and business consulting.
               </p>
@@ -109,7 +109,7 @@ export default function Home() {
             <div className="text-center p-6">
               <div className="w-16 h-16 bg-sky-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg
-                  className="w-8 h-8 text-slate-600"
+                  className="w-8 h-8 text-sky-700"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -129,7 +129,7 @@ export default function Home() {
                 </svg>
               </div>
               <h3 className="text-xl font-semibold text-slate-900 mb-3">Local Expertise</h3>
-              <p className="text-slate-600">
+              <p className="text-slate-700">
                 Deep understanding of local business environments, applicable regulations, and tax
                 and accounting considerations to support clients across regions.
               </p>
@@ -139,20 +139,20 @@ export default function Home() {
       </section>
 
       {/* Services Preview */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-sky-50">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-slate-900 mb-4">Our Core Services</h2>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+            <p className="text-lg text-slate-700 max-w-2xl mx-auto">
               Comprehensive CPA services designed to support your financial success
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="text-center p-6 rounded-lg border border-gray-200 hover:shadow-lg transition-shadow">
+            <div className="text-center p-6 rounded-lg border border-sky-200 hover:shadow-lg transition-shadow bg-white">
               <div className="w-16 h-16 bg-sky-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg
-                  className="w-8 h-8 text-slate-600"
+                  className="w-8 h-8 text-sky-700"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -166,15 +166,15 @@ export default function Home() {
                 </svg>
               </div>
               <h3 className="text-xl font-semibold text-slate-900 mb-2">Tax Return Preparation</h3>
-              <p className="text-slate-600">
+              <p className="text-slate-700">
                 Accurate and timely preparation of individual and business tax returns.
               </p>
             </div>
 
-            <div className="text-center p-6 rounded-lg border border-gray-200 hover:shadow-lg transition-shadow">
+            <div className="text-center p-6 rounded-lg border border-sky-200 hover:shadow-lg transition-shadow bg-white">
               <div className="w-16 h-16 bg-sky-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg
-                  className="w-8 h-8 text-slate-600"
+                  className="w-8 h-8 text-sky-700"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -188,15 +188,15 @@ export default function Home() {
                 </svg>
               </div>
               <h3 className="text-xl font-semibold text-slate-900 mb-2">Tax Planning</h3>
-              <p className="text-slate-600">
+              <p className="text-slate-700">
                 Strategic planning to minimize tax liabilities and optimize outcomes.
               </p>
             </div>
 
-            <div className="text-center p-6 rounded-lg border border-gray-200 hover:shadow-lg transition-shadow">
+            <div className="text-center p-6 rounded-lg border border-sky-200 hover:shadow-lg transition-shadow bg-white">
               <div className="w-16 h-16 bg-sky-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg
-                  className="w-8 h-8 text-slate-600"
+                  className="w-8 h-8 text-sky-700"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -210,7 +210,7 @@ export default function Home() {
                 </svg>
               </div>
               <h3 className="text-xl font-semibold text-slate-900 mb-2">Small Business Services</h3>
-              <p className="text-slate-600">
+              <p className="text-slate-700">
                 Specialized accounting services for small businesses and entrepreneurs.
               </p>
             </div>

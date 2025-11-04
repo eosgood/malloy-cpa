@@ -69,6 +69,12 @@ export default function Footer() {
               >
                 Contact
               </Link>
+              <Link
+                href="/payment"
+                className="block text-slate-300 hover:text-white transition-colors"
+              >
+                Payment
+              </Link>
             </nav>
           </div>
         </div>

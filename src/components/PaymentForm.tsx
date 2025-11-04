@@ -155,7 +155,7 @@ export function PaymentFormContent({
                 d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
               ></path>
             </svg>
-            <p className="text-gray-600">Loading secure payment form...</p>
+            <p className="text-slate-600">Loading secure payment form...</p>
           </div>
         </div>
       </div>
@@ -186,11 +186,11 @@ export function PaymentFormContent({
         <div className="grid md:grid-cols-2 gap-6">
           {/* Payment Amount */}
           <div>
-            <label htmlFor="amount" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="amount" className="block text-sm font-medium text-slate-700 mb-2">
               Payment Amount *
             </label>
             <div className="relative">
-              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
+              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-500">
                 $
               </span>
               <input
@@ -200,7 +200,7 @@ export function PaymentFormContent({
                 min="0.01"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
-                className="w-full pl-8 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-gray-900"
+                className="w-full pl-8 pr-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-slate-900"
                 placeholder="0.00"
                 required
               />
@@ -211,12 +211,12 @@ export function PaymentFormContent({
           <div>
             <label
               htmlFor="invoiceNumberField"
-              className="block text-sm font-medium text-gray-700 mb-2"
+              className="block text-sm font-medium text-slate-700 mb-2"
             >
               Invoice Number
             </label>
             {invoiceNumber ? (
-              <div className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-700">
+              <div className="w-full px-4 py-3 bg-sky-50 border border-slate-300 rounded-lg text-slate-700">
                 #{invoiceNumber}
               </div>
             ) : (
@@ -225,7 +225,7 @@ export function PaymentFormContent({
                 id="invoiceNumberField"
                 value={manualInvoiceNumber}
                 onChange={(e) => setManualInvoiceNumber(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-gray-900"
+                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-slate-900"
                 placeholder="INV-2024-001"
                 required
               />
@@ -234,7 +234,7 @@ export function PaymentFormContent({
 
           {/* Email */}
           <div>
-            <label htmlFor="emailField" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="emailField" className="block text-sm font-medium text-slate-700 mb-2">
               Email
             </label>
             <input
@@ -242,7 +242,7 @@ export function PaymentFormContent({
               id="emailField"
               value={manualEmail}
               onChange={(e) => setManualEmail(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-gray-900"
+              className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-slate-900"
               placeholder="you@email.com"
               required
             />
@@ -251,9 +251,9 @@ export function PaymentFormContent({
 
         {/* Invoice Number Display */}
         {(invoiceNumber || manualInvoiceNumber) && (
-          <div className="bg-gray-50 p-4 rounded-lg">
-            <p className="text-sm text-gray-600">Invoice Number:</p>
-            <p className="font-semibold text-gray-900">#{invoiceNumber || manualInvoiceNumber}</p>
+          <div className="bg-sky-50 p-4 rounded-lg border border-sky-200">
+            <p className="text-sm text-slate-600">Invoice Number:</p>
+            <p className="font-semibold text-slate-900">#{invoiceNumber || manualInvoiceNumber}</p>
           </div>
         )}
 
@@ -278,16 +278,16 @@ export function PaymentFormContent({
               <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
                 <h4 className="text-yellow-800 font-semibold mb-2">Payment Declined</h4>
                 <p className="text-yellow-700 mb-2">The payment was declined by the issuer.</p>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-slate-600">
                   You can try again or contact your card issuer.
                 </p>
               </div>
             )}
 
             {status === 'cancelled' && (
-              <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
-                <h4 className="text-gray-900 font-semibold mb-2">Payment Cancelled</h4>
-                <p className="text-gray-700">You cancelled the payment process.</p>
+              <div className="bg-sky-50 border border-sky-200 rounded-lg p-4">
+                <h4 className="text-slate-900 font-semibold mb-2">Payment Cancelled</h4>
+                <p className="text-slate-700">You cancelled the payment process.</p>
               </div>
             )}
 
@@ -341,7 +341,7 @@ export function PaymentFormContent({
           </button>
         </div>
       </div>
-      <div className="text-center text-sm text-gray-500 mt-6">
+      <div className="text-center text-sm text-slate-500 mt-6">
         <p>🔒 Your payment information is encrypted and secure</p>
       </div>
     </>
@@ -365,20 +365,20 @@ export default function PaymentForm({ invoiceNumber, amount, email }: PaymentFor
         <div className="grid md:grid-cols-2 gap-6">
           {/* Skeleton loader for payment form */}
           <div className="space-y-3">
-            <div className="h-4 bg-gray-200 rounded w-24 animate-pulse"></div>
-            <div className="h-10 bg-gray-100 rounded animate-pulse"></div>
+            <div className="h-4 bg-sky-200 rounded w-24 animate-pulse"></div>
+            <div className="h-10 bg-sky-100 rounded animate-pulse"></div>
           </div>
           <div className="space-y-3">
-            <div className="h-4 bg-gray-200 rounded w-32 animate-pulse"></div>
-            <div className="h-10 bg-gray-100 rounded animate-pulse"></div>
+            <div className="h-4 bg-sky-200 rounded w-32 animate-pulse"></div>
+            <div className="h-10 bg-sky-100 rounded animate-pulse"></div>
           </div>
           <div className="space-y-3">
-            <div className="h-4 bg-gray-200 rounded w-16 animate-pulse"></div>
-            <div className="h-10 bg-gray-100 rounded animate-pulse"></div>
+            <div className="h-4 bg-sky-200 rounded w-16 animate-pulse"></div>
+            <div className="h-10 bg-sky-100 rounded animate-pulse"></div>
           </div>
         </div>
-        <div className="h-12 bg-gray-200 rounded animate-pulse"></div>
-        <div className="text-center text-sm text-gray-500">
+        <div className="h-12 bg-sky-200 rounded animate-pulse"></div>
+        <div className="text-center text-sm text-slate-500">
           <p>Loading payment form...</p>
         </div>
       </div>

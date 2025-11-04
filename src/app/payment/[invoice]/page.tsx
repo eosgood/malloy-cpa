@@ -29,28 +29,28 @@ export default async function InvoicePaymentPage(props: InvoicePaymentPageProps)
   }
 
   return (
-    <div className="bg-gray-50">
+    <div className="bg-sky-50">
       <div className="max-w-4xl mx-auto py-16 px-6">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Pay Invoice</h1>
-          <div className="bg-sky-50 border border-sky-200 rounded-lg p-4 inline-block">
-            <p className="text-xl text-sky-800">
+          <h1 className="text-4xl font-bold text-slate-900 mb-4">Pay Invoice</h1>
+          <div className="bg-sky-100 border border-sky-300 rounded-lg p-4 inline-block">
+            <p className="text-xl text-sky-900">
               <strong>Invoice #:</strong> {invoice}
             </p>
           </div>
-          <p className="text-lg text-gray-600 mt-4 max-w-2xl mx-auto">
+          <p className="text-lg text-slate-600 mt-4 max-w-2xl mx-auto">
             Please review your invoice details and complete your payment securely below.
           </p>
         </div>
 
-        <div className="bg-white rounded-lg shadow-lg p-8">
+        <div className="bg-white rounded-lg shadow-lg p-8 border border-sky-100">
           <div className="grid md:grid-cols-2 gap-8 mb-8">
             <div>
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">Invoice Payment</h2>
-              <div className="space-y-3 text-gray-700">
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <p className="text-sm text-gray-600 mb-2">Paying Invoice:</p>
-                  <p className="text-lg font-semibold text-gray-900">#{invoice}</p>
+              <h2 className="text-2xl font-semibold text-slate-900 mb-4">Invoice Payment</h2>
+              <div className="space-y-3 text-slate-700">
+                <div className="bg-sky-50 p-4 rounded-lg border border-sky-200">
+                  <p className="text-sm text-slate-600 mb-2">Paying Invoice:</p>
+                  <p className="text-lg font-semibold text-slate-900">#{invoice}</p>
                 </div>
 
                 <div className="mt-6">
@@ -65,24 +65,27 @@ export default async function InvoicePaymentPage(props: InvoicePaymentPageProps)
               </div>
             </div>
 
-            <div className="bg-sky-50 p-6 rounded-lg">
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">
+            <div className="bg-sky-100 p-6 rounded-lg border border-sky-200">
+              <h3 className="text-xl font-semibold text-slate-900 mb-3">
                 Questions About This Invoice?
               </h3>
-              <div className="space-y-2 text-gray-700">
+              <div className="space-y-2 text-slate-700">
                 <p>
                   <strong>Phone:</strong>{' '}
-                  <a href="tel:+2094251999" className="text-sky-600 hover:underline">
+                  <a href="tel:+2094251999" className="text-sky-700 hover:underline font-semibold">
                     (209) 425-1999
                   </a>
                 </p>
                 <p>
                   <strong>Email:</strong>{' '}
-                  <a href="mailto:jack@malloycpa.com" className="text-sky-600 hover:underline">
+                  <a
+                    href="mailto:jack@malloycpa.com"
+                    className="text-sky-700 hover:underline font-semibold"
+                  >
                     jack@malloycpa.com
                   </a>
                 </p>
-                <p className="text-sm text-gray-600 mt-4">
+                <p className="text-sm text-slate-600 mt-4">
                   Please reference invoice #{invoice} when contacting our office about this payment
                   or any billing questions.
                 </p>
