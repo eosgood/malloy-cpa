@@ -67,7 +67,7 @@ export const POST = withProtection(async (req /* Request */, _ctx, { badRequest 
   try {
     const result = await resend.emails.send({
       to: email,
-      from: 'onboarding@resend.dev', // Use Resend's test domain
+      from: 'noreply@malloycpa.com',
       subject: `Payment Approval For Invoice ${invoiceId}`,
       react: React.createElement(PaymentApprovalEmailTemplate, {
         invoiceId,

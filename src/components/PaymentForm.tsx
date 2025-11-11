@@ -108,6 +108,25 @@ export function PaymentFormContent({
           },
           onApproval: (resp: Record<string, unknown>) => {
             setStatusResponse(['approval', JSON.stringify(resp)]);
+
+            // Send payment approval email (fire and forget)
+            fetch('/api/email/payment/approval', {
+              method: 'POST',
+              credentials: 'include',
+              headers: {
+                'Content-Type': 'application/json',
+                'x-csrf': csrf,
+              },
+              body: JSON.stringify({
+                invoiceId: invoiceNumber || manualInvoiceNumber,
+                amount: parseFloat(amount),
+                email: manualEmail,
+                responseJson: JSON.stringify(resp),
+              }),
+            }).catch((err) => {
+              console.error('Failed to send approval email:', err);
+              // Don't block user experience if email fails
+            });
           },
         }
       );
@@ -116,7 +135,7 @@ export function PaymentFormContent({
     } finally {
       setLoading(false);
     }
-  }, [amount, invoiceNumber, manualInvoiceNumber, csrf]);
+  }, [amount, invoiceNumber, manualInvoiceNumber, manualEmail, csrf]);
 
   const isContinueButtonEnabled = useMemo(() => {
     return (
