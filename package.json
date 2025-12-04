@@ -11,6 +11,8 @@
     "format": "prettier --write .",
     "typecheck": "tsc --noEmit",
     "test": "npm run lint && npm run typecheck && npm run build",
+    "test:ci": "./scripts/test-ci.sh",
+    "test:health": "./scripts/test-local-health.sh",
     "pre-push": "./scripts/pre-push-check.sh"
   },
   "browserslist": {
