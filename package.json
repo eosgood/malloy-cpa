@@ -9,6 +9,8 @@
     "lint": "eslint --cache --cache-location .next/cache/eslint/ .",
     "lint:fix": "eslint --fix .",
     "format": "prettier --write .",
+    "typecheck": "tsc --noEmit",
+    "test": "npm run lint && npm run typecheck && npm run build",
     "pre-push": "./scripts/pre-push-check.sh"
   },
   "browserslist": {

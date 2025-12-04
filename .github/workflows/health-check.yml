@@ -1,0 +1,80 @@
+name: Production Health Check
+
+on:
+  schedule:
+    # Run every 30 minutes
+    - cron: '*/30 * * * *'
+  workflow_dispatch: # Allow manual triggers
+  push:
+    branches: [main] # Also run after deployments
+
+jobs:
+  health-check:
+    name: Check Production Site
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check homepage
+        run: |
+          response=$(curl -s -o /dev/null -w "%{http_code}" https://malloy-cpa.vercel.app/)
+          if [ $response -eq 200 ]; then
+            echo "✅ Homepage is up (HTTP $response)"
+          else
+            echo "❌ Homepage returned HTTP $response"
+            exit 1
+          fi
+
+      - name: Check about page
+        run: |
+          response=$(curl -s -o /dev/null -w "%{http_code}" https://malloy-cpa.vercel.app/about)
+          if [ $response -eq 200 ]; then
+            echo "✅ About page is up (HTTP $response)"
+          else
+            echo "❌ About page returned HTTP $response"
+            exit 1
+          fi
+
+      - name: Check services page
+        run: |
+          response=$(curl -s -o /dev/null -w "%{http_code}" https://malloy-cpa.vercel.app/services)
+          if [ $response -eq 200 ]; then
+            echo "✅ Services page is up (HTTP $response)"
+          else
+            echo "❌ Services page returned HTTP $response"
+            exit 1
+          fi
+
+      - name: Check contact page
+        run: |
+          response=$(curl -s -o /dev/null -w "%{http_code}" https://malloy-cpa.vercel.app/contact)
+          if [ $response -eq 200 ]; then
+            echo "✅ Contact page is up (HTTP $response)"
+          else
+            echo "❌ Contact page returned HTTP $response"
+            exit 1
+          fi
+
+      - name: Check payment page
+        run: |
+          response=$(curl -s -o /dev/null -w "%{http_code}" https://malloy-cpa.vercel.app/payment)
+          if [ $response -eq 200 ]; then
+            echo "✅ Payment page is up (HTTP $response)"
+          else
+            echo "❌ Payment page returned HTTP $response"
+            exit 1
+          fi
+
+      - name: Check CSRF endpoint
+        run: |
+          response=$(curl -s -o /dev/null -w "%{http_code}" https://malloy-cpa.vercel.app/api/csrf)
+          if [ $response -eq 200 ]; then
+            echo "✅ CSRF API is up (HTTP $response)"
+          else
+            echo "❌ CSRF API returned HTTP $response"
+            exit 1
+          fi
+
+      - name: Notify on failure
+        if: failure()
+        run: |
+          echo "::error::Production site health check failed! One or more pages are not responding correctly."
