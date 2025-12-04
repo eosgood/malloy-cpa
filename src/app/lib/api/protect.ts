@@ -1,4 +1,14 @@
 // src/lib/api/protect-lite.ts
+//
+// CSRF Protection Configuration:
+// - By default, CSRF is ENABLED for all POST/PUT/PATCH/DELETE requests
+// - To disable CSRF globally, set environment variable: CSRF_ENABLED=false
+// - To disable CSRF for a specific route, pass { csrf: false } to withProtection()
+//
+// Example usage:
+//   export const POST = withProtection(handler); // CSRF enabled
+//   export const POST = withProtection(handler, { csrf: false }); // CSRF disabled for this route
+//
 export const runtime = 'nodejs';
 
 import { NextResponse } from 'next/server';
@@ -121,14 +131,13 @@ export function withProtection(handler: RouteHandler, options: ProtectOptions = 
       return tools.forbidden('Forbidden (origin)');
     }
 
-    const csrfEnabled = Boolean(process.env.CSRF_ENABLED ?? false);
-
     // CSRF (default: enforce for non-GET)
+    // Check if CSRF is enabled via environment variable (defaults to true for security)
+    const csrfEnabled = process.env.CSRF_ENABLED !== 'false';
     const needsCsrf = (opts.csrf ?? true) && method !== 'GET';
-    if (csrfEnabled) {
-      if (csrfEnabled && needsCsrf && !(await verifyCsrf())) {
-        return tools.forbidden('Forbidden (csrf)');
-      }
+
+    if (csrfEnabled && needsCsrf && !(await verifyCsrf())) {
+      return tools.forbidden('Forbidden (csrf)');
     }
 
     return handler(req, ctx, tools);
