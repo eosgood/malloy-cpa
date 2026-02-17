@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import Hero from '@/components/Hero';
 
 export const metadata: Metadata = {
@@ -119,12 +120,12 @@ export default function Services() {
                   </div>
                   <p className="text-slate-700 mb-6 leading-relaxed">{service.description}</p>
                   <div className="flex justify-start">
-                    <a
+                    <Link
                       href="/contact"
                       className="bg-sky-600 hover:bg-sky-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors duration-200"
                     >
                       Learn More
-                    </a>
+                    </Link>
                   </div>
                 </div>
                 <div>
@@ -167,12 +168,12 @@ export default function Services() {
             We&rsquo;re here to help you achieve your financial goals.
           </p>
           <div className="space-y-4 sm:space-y-0 sm:space-x-4 sm:flex sm:justify-center">
-            <a
+            <Link
               href="/contact"
               className="inline-block bg-white text-sky-600 hover:bg-sky-50 font-semibold px-8 py-4 rounded-lg text-lg transition-colors duration-200"
             >
               Contact Us Today
-            </a>
+            </Link>
             <a
               href="tel:+12094251999"
               className="inline-block border-2 border-white text-white hover:bg-white hover:text-sky-600 font-semibold px-8 py-4 rounded-lg text-lg transition-colors duration-200"
