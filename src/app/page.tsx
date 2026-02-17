@@ -38,6 +38,7 @@ const jsonLd = {
   },
   priceRange: '$$',
   areaServed: 'Central Valley, California',
+  image: 'https://malloycpa.com/logo.avif',
 };
 
 export default function Home() {
