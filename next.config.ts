@@ -54,6 +54,11 @@ const nextConfig: NextConfig = {
             key: 'X-XSS-Protection',
             value: '0',
           },
+          {
+            // Enforce HTTPS for 1 year, include subdomains, allow HSTS preload list
+            key: 'Strict-Transport-Security',
+            value: 'max-age=31536000; includeSubDomains; preload',
+          },
         ],
       },
     ];
