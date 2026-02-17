@@ -1,4 +1,10 @@
+import type { Metadata } from 'next';
 import PaymentForm from '@/components/PaymentForm';
+
+export const metadata: Metadata = {
+  title: 'Make a Payment — Malloy CPA',
+  robots: { index: false, follow: false },
+};
 
 export default function PaymentPage() {
   return (

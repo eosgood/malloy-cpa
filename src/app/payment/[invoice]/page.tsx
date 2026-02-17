@@ -1,5 +1,11 @@
+import type { Metadata } from 'next';
 import PaymentForm from '@/components/PaymentForm';
 import { notFound } from 'next/navigation';
+
+export const metadata: Metadata = {
+  title: 'Pay Invoice — Malloy CPA',
+  robots: { index: false, follow: false },
+};
 
 interface InvoicePaymentPageProps {
   params: Promise<{
