@@ -9,8 +9,12 @@ import { z } from 'zod';
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 const PaymentApprovalRequest = z.object({
-  invoiceId: z.string(),
-  amount: z.number(),
+  invoiceId: z
+    .string()
+    .min(1)
+    .max(50)
+    .regex(/^[a-zA-Z0-9-]+$/, 'Invoice must be alphanumeric (dashes allowed)'),
+  amount: z.number().positive().max(999999.99),
   email: z.string().email(),
 });
 

@@ -29,8 +29,8 @@ export default async function InvoicePaymentPage(props: InvoicePaymentPageProps)
     email = searchParams.email;
   }
 
-  // Basic validation for invoice parameter
-  if (!invoice || invoice.length < 3) {
+  // Validate invoice: 3-50 chars, alphanumeric + dashes only
+  if (!invoice || !/^[a-zA-Z0-9-]{3,50}$/.test(invoice)) {
     notFound();
   }
 
