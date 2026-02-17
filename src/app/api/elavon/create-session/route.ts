@@ -40,8 +40,8 @@ const getConvergeAuthParams = (): ConvergeAuthParams => {
 };
 
 const Body = z.object({
-  amount: z.number().int().positive(),
-  invoiceNumber: z.string(),
+  amount: z.number().positive().max(999999.99),
+  invoiceNumber: z.string().min(1).max(50),
 });
 
 /**
