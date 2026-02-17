@@ -174,7 +174,7 @@ export default function Services() {
               Contact Us Today
             </a>
             <a
-              href="tel:2094251999"
+              href="tel:+12094251999"
               className="inline-block border-2 border-white text-white hover:bg-white hover:text-sky-600 font-semibold px-8 py-4 rounded-lg text-lg transition-colors duration-200"
             >
               Call (209) 425-1999

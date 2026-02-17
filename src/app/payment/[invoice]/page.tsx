@@ -78,7 +78,7 @@ export default async function InvoicePaymentPage(props: InvoicePaymentPageProps)
               <div className="space-y-2 text-slate-700">
                 <p>
                   <strong>Phone:</strong>{' '}
-                  <a href="tel:+2094251999" className="text-sky-700 hover:underline font-semibold">
+                  <a href="tel:+12094251999" className="text-sky-700 hover:underline font-semibold">
                     (209) 425-1999
                   </a>
                 </p>

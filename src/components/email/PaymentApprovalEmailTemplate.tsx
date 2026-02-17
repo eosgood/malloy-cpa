@@ -106,7 +106,7 @@ export const PaymentApprovalEmailTemplate: React.FC<PaymentApprovalEmailTemplate
             <Text style={footerText}>Stockton, CA 95207</Text>
             <Text style={footerText}>
               Phone:{' '}
-              <a href="tel:2094251999" style={link}>
+              <a href="tel:+12094251999" style={link}>
                 (209) 425-1999
               </a>
             </Text>
