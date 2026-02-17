@@ -103,6 +103,7 @@ export function useCsrf(): string | null {
       subscribers.delete(setNonce);
       ac.abort();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- singleton: runs once on mount, nonce updates via subscriber
   }, []);
 
   return nonce;

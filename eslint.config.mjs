@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 
 import tseslint from 'typescript-eslint';
 import nextPlugin from '@next/eslint-plugin-next';
+import reactHooksPlugin from 'eslint-plugin-react-hooks';
 import eslintConfigPrettier from 'eslint-config-prettier';
 import prettierPlugin from 'eslint-plugin-prettier';
 
@@ -55,9 +56,21 @@ export default [
     },
   },
 
-  // 4) Prettier LAST
+  // 4) React Hooks rules
+  {
+    plugins: { 'react-hooks': reactHooksPlugin },
+    rules: {
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'warn',
+    },
+  },
+
+  // 5) Prettier LAST — disables conflicting rules, then enforces formatting
   eslintConfigPrettier,
   {
     plugins: { prettier: prettierPlugin },
+    rules: {
+      'prettier/prettier': 'warn',
+    },
   },
 ];
