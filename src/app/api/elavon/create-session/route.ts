@@ -140,7 +140,7 @@ export const POST = withProtection(async (req /* Request */, _ctx, { badRequest 
     const tokenFormData = new URLSearchParams(formDataEntries);
 
     // Build request URL using Vercel proxy
-    const convergeTokenEndpoint = `${getConvergeApiBaseUrl()}/hosted-payments/transaction_token`;
+    const convergeTokenEndpoint = `${getConvergeApiBaseUrl()}hosted-payments/transaction_token`;
     const tokenProxyUrl = `${VERCEL_PROXY_URL}?url=${encodeURIComponent(convergeTokenEndpoint)}`;
 
     console.log('Requesting Converge transaction token', {
