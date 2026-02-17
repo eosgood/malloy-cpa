@@ -1,4 +1,17 @@
+import type { Metadata } from 'next';
 import Hero from '@/components/Hero';
+
+export const metadata: Metadata = {
+  title: 'About',
+  description:
+    'Meet Jack Malloy, CPA — Cal Poly alumnus with public accounting experience since 2011. Learn about our family-owned practice in Stockton, CA.',
+  openGraph: {
+    title: 'About Malloy Accounting LLC',
+    description: 'Meet Jack Malloy, CPA — family-owned practice in Stockton, CA.',
+    url: '/about',
+  },
+  alternates: { canonical: '/about' },
+};
 
 export default function About() {
   return (

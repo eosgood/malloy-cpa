@@ -16,10 +16,22 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Malloy Accounting LLC - CPA Services in Stockton, CA',
+  metadataBase: new URL('https://malloycpa.com'),
+  title: {
+    default: 'Malloy Accounting LLC — CPA Services in Stockton, CA',
+    template: '%s — Malloy Accounting LLC',
+  },
   description:
     'Family-owned tax practice servicing individuals and small businesses of the Central Valley. Expert CPA services including tax preparation, planning, and small business accounting.',
-  // icons handled via <link rel="icon"> in <head>
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    siteName: 'Malloy Accounting LLC',
+    images: [{ url: '/logo.avif', width: 600, height: 600, alt: 'Malloy Accounting LLC' }],
+  },
+  twitter: {
+    card: 'summary',
+  },
 };
 
 export default function RootLayout({

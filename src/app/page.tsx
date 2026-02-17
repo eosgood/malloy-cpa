@@ -1,8 +1,52 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
+
+export const metadata: Metadata = {
+  title: 'Malloy Accounting LLC — CPA Services in Stockton, CA',
+  description:
+    'Family-owned CPA firm in Stockton, CA. Tax preparation, tax planning, and small business accounting for individuals and businesses in the Central Valley.',
+  openGraph: {
+    title: 'Malloy Accounting LLC — CPA Services in Stockton, CA',
+    description:
+      'Family-owned CPA firm in Stockton, CA. Tax preparation, tax planning, and small business accounting.',
+    url: '/',
+  },
+  alternates: { canonical: '/' },
+};
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'AccountingService',
+  name: 'Malloy Accounting LLC',
+  description:
+    'Family-owned tax practice servicing individuals and small businesses of the Central Valley.',
+  url: 'https://malloycpa.com',
+  telephone: '+1-209-425-1999',
+  email: 'jack@malloycpa.com',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: '5345 N. El Dorado St, Suite 4',
+    addressLocality: 'Stockton',
+    addressRegion: 'CA',
+    postalCode: '95207',
+    addressCountry: 'US',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: 38.0202,
+    longitude: -121.3236,
+  },
+  priceRange: '$$',
+  areaServed: 'Central Valley, California',
+};
 
 export default function Home() {
   return (
     <div className="bg-sky-50">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Hero Section */}
       <section className="py-20 bg-gradient-to-br from-sky-100 to-slate-50">
         <div className="max-w-6xl mx-auto px-6">

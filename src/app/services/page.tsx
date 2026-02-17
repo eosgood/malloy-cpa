@@ -1,4 +1,18 @@
+import type { Metadata } from 'next';
 import Hero from '@/components/Hero';
+
+export const metadata: Metadata = {
+  title: 'Services',
+  description:
+    'CPA services including tax return preparation, tax planning, small business accounting, and IRS representation. Serving Stockton and the Central Valley.',
+  openGraph: {
+    title: 'CPA Services — Malloy Accounting LLC',
+    description:
+      'Tax preparation, planning, small business accounting, and IRS representation in Stockton, CA.',
+    url: '/services',
+  },
+  alternates: { canonical: '/services' },
+};
 
 export default function Services() {
   const services = [

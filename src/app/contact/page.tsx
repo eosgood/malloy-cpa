@@ -1,4 +1,17 @@
+import type { Metadata } from 'next';
 import Hero from '@/components/Hero';
+
+export const metadata: Metadata = {
+  title: 'Contact',
+  description:
+    'Contact Malloy Accounting LLC in Stockton, CA. Call (209) 425-1999, email jack@malloycpa.com, or visit us at 5345 N. El Dorado St, Suite 4.',
+  openGraph: {
+    title: 'Contact Malloy Accounting LLC',
+    description: 'Get in touch — (209) 425-1999 or jack@malloycpa.com.',
+    url: '/contact',
+  },
+  alternates: { canonical: '/contact' },
+};
 
 export default function Contact() {
   const contactItems = [
