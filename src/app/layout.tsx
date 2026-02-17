@@ -4,7 +4,6 @@ import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Analytics } from '@vercel/analytics/next';
-import CsrfBoot from './csrfBoot';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -34,7 +33,6 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans`}>
-        <CsrfBoot />
         <div className="min-h-screen flex flex-col">
           <Header />
           <main className="flex-grow bg-white">{children}</main>

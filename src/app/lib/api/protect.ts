@@ -32,19 +32,30 @@ function isSameOriginRequired(method: string, opts: ProtectOptions) {
   return true; // enforce for non-GET
 }
 
+/** Normalize loopback variants so localhost ↔ 127.0.0.1 ↔ [::1] all match */
+function normalizeHost(raw: string): string {
+  // Strip brackets from IPv6 to compare the bare address
+  const loopbacks = ['localhost', '127.0.0.1', '[::1]', '::1'];
+  const [hostname, port] = raw.startsWith('[')
+    ? [raw.slice(0, raw.indexOf(']') + 1), raw.slice(raw.indexOf(']') + 2)]
+    : raw.split(':').length > 2
+      ? [raw, ''] // bare IPv6 without port
+      : [raw.split(':')[0], raw.split(':')[1]]; // hostname:port
+
+  const normalizedName = loopbacks.includes(hostname) ? 'localhost' : hostname;
+  return port ? `${normalizedName}:${port}` : normalizedName;
+}
+
 async function checkSameOrigin(): Promise<boolean> {
   const h = await headers();
   const origin = h.get('origin');
   const host = h.get('host');
-  // Debug: log origin/host for diagnostics (do not log secrets)
-  // This helps detect proxy/origin mismatches in production
-  // (temporary - remove once issue is resolved)
-  console.debug('[protect] checkSameOrigin', { origin, host });
-  if (!origin) return false;
+  if (!origin || !host) return false;
   try {
-    return new URL(origin).host === host;
-  } catch (err) {
-    console.debug('[protect] checkSameOrigin parse error', { origin, host, err: String(err) });
+    const originHost = normalizeHost(new URL(origin).host);
+    const reqHost = normalizeHost(host);
+    return originHost === reqHost;
+  } catch {
     return false;
   }
 }
@@ -55,18 +66,11 @@ async function verifyCsrf(): Promise<boolean> {
   const sig = c.get('csrf_sig')?.value ?? '';
   const headerNonce = (await headers()).get('x-csrf') ?? '';
 
-  console.log('[protect] verifyCsrf - values', {
-    cookieNoncePreview: nonce ? `${nonce.substring(0, 8)}...` : '[missing]',
-    cookieSigPreview: sig ? `${sig.substring(0, 8)}...` : '[missing]',
-    headerNoncePreview: headerNonce ? `${headerNonce.substring(0, 8)}...` : '[missing]',
-    nonceMatch: headerNonce === nonce,
-  });
-
   if (!nonce || !sig || headerNonce !== nonce) {
-    console.error('[protect] verifyCsrf failed - presence', {
+    console.error('[protect] CSRF verification failed', {
       hasCookieNonce: !!nonce,
       hasCookieSig: !!sig,
-      headerNonceValue: headerNonce ? '[present]' : '[missing]',
+      hasHeader: !!headerNonce,
       nonceMatch: headerNonce === nonce,
     });
     return false;
@@ -143,11 +147,6 @@ export function withProtection(handler: RouteHandler, options: ProtectOptions = 
 
     // Same-origin (default: enforce for non-GET)
     if (isSameOriginRequired(method, opts) && !(await checkSameOrigin())) {
-      // Log request headers for debugging origin mismatch
-      const h = await headers();
-      const origin = h.get('origin');
-      const host = h.get('host');
-      console.error('[protect] same-origin failed', { method, origin, host });
       return tools.forbidden('Forbidden (origin)');
     }
 

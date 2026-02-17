@@ -33,35 +33,22 @@ export function GET(req: NextRequest) {
     const nonce = crypto.randomBytes(16).toString('hex');
     const sig = crypto.createHmac('sha256', process.env.CSRF_SECRET).update(nonce).digest('hex');
 
-    console.log('[csrf] Token issued', {
-      requestId,
-      timestamp: new Date().toISOString(),
-      nonceLength: nonce.length,
-      sigLength: sig.length,
-      origin: req.headers.get('origin') || 'none',
-      userAgent: req.headers.get('user-agent')?.substring(0, 100) || 'none',
-      ip: req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || 'unknown',
-    });
+    console.log('[csrf] Token issued', { requestId });
+
+    const isProduction = process.env.NODE_ENV === 'production';
 
     const res = NextResponse.json({ nonce });
     res.cookies.set('csrf_nonce', nonce, {
       httpOnly: true,
       sameSite: 'lax',
-      secure: true,
+      secure: isProduction,
       path: '/',
     });
     res.cookies.set('csrf_sig', sig, {
       httpOnly: true,
       sameSite: 'lax',
-      secure: true,
+      secure: isProduction,
       path: '/',
-    });
-
-    const duration = Date.now() - startTime;
-    console.log('[csrf] Request completed', {
-      requestId,
-      durationMs: duration,
-      success: true,
     });
 
     return res;
