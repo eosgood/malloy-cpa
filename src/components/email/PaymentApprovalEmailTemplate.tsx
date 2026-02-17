@@ -17,29 +17,13 @@ interface PaymentApprovalEmailTemplateProps {
   invoiceId: string;
   amount: number;
   email: string;
-  responseJson: string;
 }
 
 export const PaymentApprovalEmailTemplate: React.FC<PaymentApprovalEmailTemplateProps> = ({
   invoiceId,
   amount,
   email,
-  responseJson,
 }) => {
-  // Parse the response to get transaction details
-  let transactionData: Record<string, string | number | boolean> = {};
-  try {
-    const parsed = JSON.parse(responseJson) as Record<string, unknown>;
-    // Only extract safe string/number values
-    transactionData = Object.fromEntries(
-      Object.entries(parsed).filter(
-        ([, v]) => typeof v === 'string' || typeof v === 'number' || typeof v === 'boolean'
-      )
-    ) as Record<string, string | number | boolean>;
-  } catch {
-    // Fallback if parsing fails
-  }
-
   const formattedAmount = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
@@ -94,18 +78,6 @@ export const PaymentApprovalEmailTemplate: React.FC<PaymentApprovalEmailTemplate
               <Column style={detailLabel}>Email Address:</Column>
               <Column style={detailValue}>{email}</Column>
             </Row>
-
-            {transactionData.ssl_txn_id && (
-              <Row style={detailRow}>
-                <Column style={detailLabel}>Transaction ID:</Column>
-                <Column style={detailValue}>
-                  {typeof transactionData.ssl_txn_id === 'string' ||
-                  typeof transactionData.ssl_txn_id === 'number'
-                    ? String(transactionData.ssl_txn_id)
-                    : 'N/A'}
-                </Column>
-              </Row>
-            )}
           </Section>
 
           <Hr style={divider} />

@@ -12,7 +12,6 @@ const PaymentApprovalRequest = z.object({
   invoiceId: z.string(),
   amount: z.number(),
   email: z.string().email(),
-  responseJson: z.string(),
 });
 
 /**
@@ -53,15 +52,13 @@ export const POST = withProtection(async (req /* Request */, _ctx, { badRequest 
     return badRequest('Invalid body');
   }
 
-  const { invoiceId, amount, email, responseJson } = parsedPaymentApprovalRequest.data;
+  const { invoiceId, amount, email } = parsedPaymentApprovalRequest.data;
 
   console.log('[email/approval] Sending email', {
     requestId,
     invoiceId,
     amount,
     to: email,
-    hasResponseJson: !!responseJson,
-    responseJsonLength: responseJson?.length || 0,
   });
 
   try {
@@ -73,7 +70,6 @@ export const POST = withProtection(async (req /* Request */, _ctx, { badRequest 
         invoiceId,
         amount,
         email,
-        responseJson,
       }),
     });
 

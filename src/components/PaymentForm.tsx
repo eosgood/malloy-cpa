@@ -121,7 +121,6 @@ export function PaymentFormContent({
                 invoiceId: invoiceNumber || manualInvoiceNumber,
                 amount: parseFloat(amount),
                 email: manualEmail,
-                responseJson: JSON.stringify(resp),
               }),
             }).catch((err) => {
               console.error('Failed to send approval email:', err);
