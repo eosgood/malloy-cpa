@@ -186,6 +186,8 @@ export function PaymentFormContent({
       <Script
         id="jquery-cdn"
         src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha384-vtXRMe3mGCbOeY7l30aIg8H9p3GdeSe4IFlP6G8JMa7o7lXvnz3GFKzPxzJdPfGK"
+        crossOrigin="anonymous"
         strategy="afterInteractive"
         onLoad={() => setJqLoaded(true)}
       />
