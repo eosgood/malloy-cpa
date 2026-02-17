@@ -1,9 +1,23 @@
 import { NextResponse, NextRequest } from 'next/server';
 import crypto from 'node:crypto';
+import { rateLimit } from '@/app/lib/api/rate-limit';
 
 export function GET(req: NextRequest) {
   const startTime = Date.now();
   const requestId = crypto.randomBytes(8).toString('hex');
+
+  // Rate limit: 30 requests per 60 seconds per IP
+  const ip =
+    req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+    req.headers.get('x-real-ip') ||
+    'unknown';
+  const rl = rateLimit(`${ip}:/api/csrf`, { limit: 30, windowSeconds: 60 });
+  if (!rl.allowed) {
+    return NextResponse.json(
+      { error: 'Too many requests' },
+      { status: 429, headers: { 'Retry-After': String(rl.retryAfterSeconds) } }
+    );
+  }
 
   try {
     // Validate environment configuration

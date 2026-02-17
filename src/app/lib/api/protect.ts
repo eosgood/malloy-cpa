@@ -14,6 +14,7 @@ export const runtime = 'nodejs';
 import { NextResponse } from 'next/server';
 import { headers, cookies } from 'next/headers';
 import crypto from 'node:crypto';
+import { rateLimit } from './rate-limit';
 
 export type ProtectOptions = {
   // If you also keep your own session cookie, enforce it here
@@ -21,6 +22,8 @@ export type ProtectOptions = {
   sameOrigin?: boolean; // default true for non-GET
   csrf?: boolean; // default true for non-GET
   allowGetWithoutOrigin?: boolean; // default true
+  /** Rate limit config. Set to false to disable. Default: 20 req / 60 s per IP. */
+  rateLimit?: { limit: number; windowSeconds: number } | false;
 };
 
 function isSameOriginRequired(method: string, opts: ProtectOptions) {
@@ -111,6 +114,23 @@ export function withProtection(handler: RouteHandler, options: ProtectOptions = 
       unauthorized: (msg = 'Unauthorized') => NextResponse.json({ error: msg }, { status: 401 }),
       forbidden: (msg = 'Forbidden') => NextResponse.json({ error: msg }, { status: 403 }),
     };
+
+    // Rate limiting (default: 20 req / 60 s per IP per route)
+    if (opts.rateLimit !== false) {
+      const h = await headers();
+      const ip = h.get('x-forwarded-for')?.split(',')[0]?.trim() || h.get('x-real-ip') || 'unknown';
+      const route = new URL(req.url).pathname;
+      const rl = rateLimit(`${ip}:${route}`, opts.rateLimit ?? { limit: 20, windowSeconds: 60 });
+      if (!rl.allowed) {
+        return NextResponse.json(
+          { error: 'Too many requests' },
+          {
+            status: 429,
+            headers: { 'Retry-After': String(rl.retryAfterSeconds) },
+          }
+        );
+      }
+    }
 
     // Optional: enforce your own session cookie
     if (opts.requireSessionCookie) {
