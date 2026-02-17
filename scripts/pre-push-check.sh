@@ -20,8 +20,6 @@ if [ -n "$UNTRACKED_FILES" ]; then
     echo "⚠️  Warning: Found untracked files:"
     echo "$UNTRACKED_FILES"
     echo ""
-    echo "❓ Do you need to add any of these files? (especially images in public/)"
-    echo ""
 else
     echo "✅ No untracked files found"
     echo ""
@@ -37,8 +35,18 @@ else
 fi
 echo ""
 
-# 4. Build check
-echo "🏗️  4. Testing production build..."
+# 4. Type check
+echo "🔎 4. Running TypeScript type check..."
+if npx tsc --noEmit; then
+    echo "✅ Type check passed"
+else
+    echo "❌ Type check failed - fix errors before pushing"
+    exit 1
+fi
+echo ""
+
+# 5. Build check
+echo "🏗️  5. Testing production build..."
 if npm run build; then
     echo "✅ Build successful"
 else
@@ -47,25 +55,18 @@ else
 fi
 echo ""
 
-# 5. Check if dev server would start (quick check)
-echo "🌐 5. Checking if development server starts..."
-timeout 10s npm run dev > /dev/null 2>&1 || echo "⚠️  Dev server check (this is normal to timeout)"
-echo ""
-
-# 6. Show staged changes for review
-echo "📝 6. Staged changes for commit:"
-if git diff --cached --name-only | grep -q .; then
-    git diff --cached --name-only
-    echo ""
-    echo "📖 Review changes with: git diff --cached"
+# 6. Show commits not yet pushed
+echo "📝 6. Commits not yet pushed:"
+UNPUSHED=$(git log @{u}.. --oneline 2>/dev/null || true)
+if [ -n "$UNPUSHED" ]; then
+    echo "$UNPUSHED"
 else
-    echo "⚠️  No files staged for commit"
+    echo "⚠️  No unpushed commits (or no upstream set)"
 fi
 echo ""
 
 echo "✨ Pre-push checks completed!"
 echo ""
 echo "🎯 Ready to push? Run:"
-echo "   git commit -m 'Your descriptive message'"
 echo "   git push origin main"
 echo ""
